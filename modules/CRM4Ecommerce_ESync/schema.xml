@@ -1,0 +1,438 @@
+<?xml version='1.0'?>
+<schema>
+	<tables>
+		<table>
+			<name>vtiger_eventhandlers</name>
+			<sql><![CDATA[
+INSERT INTO `vtiger_eventhandlers` (`event_name`, `handler_path`, `handler_class`, `is_active`) SELECT 'vtiger.entity.aftersave', 'modules/CRM4Ecommerce_ESync/model/event.php', 'CRM4Ecommerce_ESync_Model_Event', 1 FROM `vtiger_eventhandlers` WHERE NOT EXISTS (SELECT * FROM `vtiger_eventhandlers` WHERE `event_name`='vtiger.entity.aftersave' AND `handler_path`='modules/CRM4Ecommerce_ESync/model/event.php' AND `handler_class` = 'CRM4Ecommerce_ESync_Model_Event' AND `is_active` in (1,0)) LIMIT 1
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_eventhandlers</name>
+			<sql><![CDATA[
+INSERT INTO `vtiger_eventhandlers` (`event_name`, `handler_path`, `handler_class`, `is_active`) SELECT 'vtiger.entity.afterdelete', 'modules/CRM4Ecommerce_ESync/model/event.php', 'CRM4Ecommerce_ESync_Model_DeleteEvent', 1 FROM `vtiger_eventhandlers` WHERE NOT EXISTS (SELECT * FROM `vtiger_eventhandlers` WHERE `event_name`='vtiger.entity.afterdelete' AND `handler_path`='modules/CRM4Ecommerce_ESync/model/event.php' AND `handler_class` = 'CRM4Ecommerce_ESync_Model_DeleteEvent' AND `is_active` in (1,0)) LIMIT 1
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_eventhandlers_seq</name>
+			<sql><![CDATA[
+UPDATE `vtiger_eventhandlers_seq` SET `id` = (SELECT MAX(eventhandler_id) FROM `vtiger_eventhandlers`);
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_crm4ecommerce</name>
+			<sql><![CDATA[
+CREATE TABLE `vtiger_crm4ecommerce` ( `store_id` int(10) AUTO_INCREMENT PRIMARY KEY NOT NULL, `store_url` TEXT NULL, `store_accesskey` TEXT NULL, `is_default` tinyint(4) DEFAULT 0, `allow_sync_from_vtiger` tinyint(4) DEFAULT 1 );
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_leaddetails</name>
+			<sql><![CDATA[
+ALTER TABLE `vtiger_leaddetails` ADD `remote_id` varchar(20) default '', ADD `store_id` int(10)
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_account</name>
+			<sql><![CDATA[
+ALTER TABLE `vtiger_account` ADD `remote_id` varchar(20) default '', ADD `store_id` int(10),  ADD `is_guest` tinyint(4) DEFAULT 0
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_contactdetails</name>
+			<sql><![CDATA[
+ALTER TABLE `vtiger_contactdetails` ADD `remote_id` varchar(20) default '', ADD `store_id` int(10)
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_products</name>
+			<sql><![CDATA[
+ALTER TABLE `vtiger_products` ADD `remote_id` varchar(20) default '', ADD `store_id` int(10), MODIFY `website` VARCHAR(255) NULL, MODIFY `productname` varchar(200) NULL
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_service</name>
+			<sql><![CDATA[
+ALTER TABLE `vtiger_service` ADD `remote_id` varchar(20) default '', ADD `store_id` int(10), MODIFY `website` VARCHAR(255) NULL, MODIFY `servicename` varchar(200) NULL
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_quotes</name>
+			<sql><![CDATA[
+ALTER TABLE `vtiger_quotes` ADD `remote_id` varchar(20) default '', ADD `store_id` int(10)
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_salesorder</name>
+			<sql><![CDATA[
+ALTER TABLE `vtiger_salesorder` ADD `remote_id` varchar(20) default '', ADD `store_id` int(10)
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_invoice</name>
+			<sql><![CDATA[
+ALTER TABLE `vtiger_invoice` ADD `remote_id` varchar(20) default '', ADD `store_id` int(10)
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_field</name>
+			<sql><![CDATA[
+UPDATE `vtiger_field` SET `uitype` = 33 WHERE (`columnname` = 'productcategory' and `tablename` = 'vtiger_products') OR (`columnname` = 'servicecategory' and `tablename` = 'vtiger_service')
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_inventoryproductrel</name>
+			<sql><![CDATA[
+ALTER TABLE `vtiger_inventoryproductrel` MODIFY `comment` varchar(1000) NULL
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_field</name>
+			<sql><![CDATA[
+UPDATE `vtiger_field` SET `uitype` = 15 WHERE `columnname` = 'country' and `tablename` = 'vtiger_leadaddress'
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_field</name>
+			<sql><![CDATA[
+UPDATE `vtiger_field` SET `uitype` = 15 WHERE `columnname` = 'bill_country' and `tablename` = 'vtiger_accountbillads'
+
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_field</name>
+			<sql><![CDATA[
+UPDATE `vtiger_field` SET `uitype` = 15 WHERE `columnname` = 'ship_country' and `tablename` = 'vtiger_accountshipads'
+
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_field</name>
+			<sql><![CDATA[
+UPDATE `vtiger_field` SET `uitype` = 15 WHERE `columnname` = 'mailingcountry' and `tablename` = 'vtiger_contactaddress'
+
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_field</name>
+			<sql><![CDATA[
+UPDATE `vtiger_field` SET `uitype` = 15 WHERE `columnname` = 'othercountry' and `tablename` = 'vtiger_contactaddress'
+
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_field</name>
+			<sql><![CDATA[
+UPDATE `vtiger_field` SET `uitype` = 15 WHERE `columnname` = 'bill_country' and `tablename` = 'vtiger_quotesbillads'
+
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_field</name>
+			<sql><![CDATA[
+UPDATE `vtiger_field` SET `uitype` = 15 WHERE `columnname` = 'ship_country' and `tablename` = 'vtiger_quotesshipads'
+
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_field</name>
+			<sql><![CDATA[
+UPDATE `vtiger_field` SET `uitype` = 15 WHERE `columnname` = 'bill_country' and `tablename` = 'vtiger_sobillads'
+
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_field</name>
+			<sql><![CDATA[
+UPDATE `vtiger_field` SET `uitype` = 15 WHERE `columnname` = 'ship_country' and `tablename` = 'vtiger_soshipads'
+
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_field</name>
+			<sql><![CDATA[
+UPDATE `vtiger_field` SET `uitype` = 15 WHERE `columnname` = 'bill_country' and `tablename` = 'vtiger_invoicebillads'
+
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_field</name>
+			<sql><![CDATA[
+UPDATE `vtiger_field` SET `uitype` = 15 WHERE `columnname` = 'ship_country' and `tablename` = 'vtiger_invoiceshipads'
+
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_country</name>
+			<sql><![CDATA[
+CREATE TABLE `vtiger_country` ( `countryid` int(19) NOT NULL auto_increment, `country` varchar(200) NOT NULL, `presence` int(1) NOT NULL default '1', `picklist_valueid` int(19) NOT NULL default '0', `sortorderid` int(11) NOT NULL default '1', PRIMARY KEY  (`countryid`) )
+
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_country_seq</name>
+			<sql><![CDATA[
+CREATE TABLE `vtiger_country_seq` ( `id` int(11) NOT NULL )
+
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_country_seq</name>
+			<sql><![CDATA[
+INSERT INTO `vtiger_country_seq` (`id`) VALUES ('0')
+
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_picklist</name>
+			<sql><![CDATA[
+INSERT INTO `vtiger_picklist` (`name`) VALUES ('country')
+
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_picklist_seq</name>
+			<sql><![CDATA[
+UPDATE `vtiger_picklist_seq` SET id = id + 1
+
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_bill_country</name>
+			<sql><![CDATA[
+CREATE TABLE `vtiger_bill_country` ( `bill_countryid` int(19) NOT NULL auto_increment, `bill_country` varchar(200) NOT NULL, `presence` int(1) NOT NULL default '1', `picklist_valueid` int(19) NOT NULL default '0', `sortorderid` int(11) NOT NULL default '1', PRIMARY KEY  (`bill_countryid`) )
+
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_bill_country_seq</name>
+			<sql><![CDATA[
+CREATE TABLE `vtiger_bill_country_seq` ( `id` int(11) NOT NULL )
+
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_bill_country_seq</name>
+			<sql><![CDATA[
+INSERT INTO `vtiger_bill_country_seq` (`id`) VALUES ('0')
+
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_picklist</name>
+			<sql><![CDATA[
+INSERT INTO `vtiger_picklist` (`name`) VALUES ('bill_country')
+
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_picklist_seq</name>
+			<sql><![CDATA[
+UPDATE `vtiger_picklist_seq` SET id = id + 1
+
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_ship_country</name>
+			<sql><![CDATA[
+CREATE TABLE `vtiger_ship_country` ( `ship_countryid` int(19) NOT NULL auto_increment, `ship_country` varchar(200) NOT NULL, `presence` int(1) NOT NULL default '1', `picklist_valueid` int(19) NOT NULL default '0', `sortorderid` int(11) NOT NULL default '1', PRIMARY KEY  (`ship_countryid`) )
+
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_ship_country_seq</name>
+			<sql><![CDATA[
+CREATE TABLE `vtiger_ship_country_seq` ( `id` int(11) NOT NULL )
+
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_ship_country_seq</name>
+			<sql><![CDATA[
+INSERT INTO `vtiger_ship_country_seq` (`id`) VALUES ('0')
+
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_picklist</name>
+			<sql><![CDATA[
+INSERT INTO `vtiger_picklist` (`name`) VALUES ('ship_country')
+
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_picklist_seq</name>
+			<sql><![CDATA[
+UPDATE `vtiger_picklist_seq` SET id = id + 1
+
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_mailingcountry</name>
+			<sql><![CDATA[
+CREATE TABLE `vtiger_mailingcountry` ( `mailingcountryid` int(19) NOT NULL auto_increment, `mailingcountry` varchar(200) NOT NULL, `presence` int(1) NOT NULL default '1', `picklist_valueid` int(19) NOT NULL default '0', `sortorderid` int(11) NOT NULL default '1', PRIMARY KEY  (`mailingcountryid`) )
+
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_mailingcountry_seq</name>
+			<sql><![CDATA[
+CREATE TABLE `vtiger_mailingcountry_seq` ( `id` int(11) NOT NULL )
+
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_mailingcountry_seq</name>
+			<sql><![CDATA[
+INSERT INTO `vtiger_mailingcountry_seq` (`id`) VALUES ('0')
+
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_picklist</name>
+			<sql><![CDATA[
+INSERT INTO `vtiger_picklist` (`name`) VALUES ('mailingcountry')
+
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_picklist_seq</name>
+			<sql><![CDATA[
+UPDATE `vtiger_picklist_seq` SET id = id + 1
+
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_othercountry</name>
+			<sql><![CDATA[
+CREATE TABLE `vtiger_othercountry` ( `othercountryid` int(19) NOT NULL auto_increment, `othercountry` varchar(200) NOT NULL, `presence` int(1) NOT NULL default '1', `picklist_valueid` int(19) NOT NULL default '0', `sortorderid` int(11) NOT NULL default '1', PRIMARY KEY  (`othercountryid`) )
+
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_othercountry_seq</name>
+			<sql><![CDATA[
+CREATE TABLE `vtiger_othercountry_seq` ( `id` int(11) NOT NULL )
+
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_othercountry_seq</name>
+			<sql><![CDATA[
+INSERT INTO `vtiger_othercountry_seq` (`id`) VALUES ('0')
+
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_picklist</name>
+			<sql><![CDATA[
+INSERT INTO `vtiger_picklist` (`name`) VALUES ('othercountry')
+
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_picklist_seq</name>
+			<sql><![CDATA[
+UPDATE `vtiger_picklist_seq` SET id = id + 1
+
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_field</name>
+			<sql><![CDATA[
+UPDATE `vtiger_field` SET `uitype` = 15 WHERE `columnname` = 'shipping' and `tablename` = 'vtiger_quotes'
+
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_shipping</name>
+			<sql><![CDATA[
+CREATE TABLE `vtiger_shipping` ( `shippingid` int(19) NOT NULL auto_increment, `shipping` varchar(200) NOT NULL, `presence` int(1) NOT NULL default '1', `picklist_valueid` int(19) NOT NULL default '0', `sortorderid` int(11) NOT NULL default '1', PRIMARY KEY  (`shippingid`) )
+
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_shipping_seq</name>
+			<sql><![CDATA[
+CREATE TABLE `vtiger_shipping_seq` ( `id` int(11) NOT NULL )
+
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>`vtiger_shipping_seq`</name>
+			<sql><![CDATA[
+INSERT INTO `vtiger_shipping_seq` (`id`) VALUES ('0')
+
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_picklist</name>
+			<sql><![CDATA[
+INSERT INTO `vtiger_picklist` (`name`) VALUES ('shipping')
+
+					
+            ]]></sql>
+		</table>
+		<table>
+			<name>vtiger_picklist_seq</name>
+			<sql><![CDATA[
+UPDATE `vtiger_picklist_seq` SET id = id + 1
+
+					
+            ]]></sql>
+		</table>
+	</tables>
+</schema>
