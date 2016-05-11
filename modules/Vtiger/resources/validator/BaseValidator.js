@@ -212,7 +212,13 @@ jQuery.Class("Vtiger_Base_Validator_Js",{
 			cut_spec_str = cut_spec_str.slice(0,-1);
 		}
 		$("textarea[id^='SalesOrder_editView_fieldName_cf_']").each(function(index) {
-			jQuery(this).val(cut_spec_str);
+			var so_responseData = JSON.parse(jQuery(this).attr('data-fieldinfo'));
+			var so_len = Object.keys(so_responseData).length;
+			if(so_len > 1 && so_responseData.label){
+				if(so_responseData.label.toLowerCase() == 'cut spec'){
+					jQuery(this).val(cut_spec_str);
+				}
+			}				
 		});
     }
 });

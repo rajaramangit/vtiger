@@ -42,12 +42,21 @@
 	    position:absolute;
 	    min-height:100%;
 	    display:block;
-	    -webkit-transform: translate(-50%, -50%);
+	    -webkit-transform: translate(-50%, -50% !important);
 	    min-width:100%;
 	}	
 	.tbl-cont{
 		width: 20%;float: left;
 	}
+	.prod-highlight{
+		border: green 2px solid !important;
+	}
+	.qty-empty-highlight{
+		border: red 1px solid !important;
+	}
+	table{
+		height: 400px;
+	}	
 </style>
 
 <div id="popupEntriesDiv">	
@@ -60,10 +69,10 @@
 			<table class="table table-bordered tbl-cont">
 			<tr class="listViewEntries" data-id="{$LISTVIEW_ENTRY->getId()}" data-name='{$LISTVIEW_ENTRY->getName()}' data-info='{ZEND_JSON::encode($LISTVIEW_ENTRY->getRawData())}'
 				{if $GETURL neq '' } data-url='{$LISTVIEW_ENTRY->$GETURL()}' {/if}  id="{$MODULE}_popUpListView_row_{$smarty.foreach.popupListView.index+1}">
-				<td class="listViewEntryValue {$WIDTHTYPE}">
+				<td class="listViewEntryValue {$WIDTHTYPE}" style="vertical-align: top;">
 				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 				{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
-				<div style="width: 100%">
+				<div style="width: 100%;text-align: center;">
 					{if $temp_val == 1}					
 						<div id="imageContainer" class="img-cont">
 							{foreach key=ITER item=IMAGE_INFO from=$IMAGE_DETAILS}							
@@ -76,7 +85,7 @@
 					{if $LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->get('uitype') eq '2'}
 						
 						<div style="width:100%">
-							<div style="float:left;width:90%;font-size: 14px;padding-bottom:10px;"><a><b>{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}</b></a></div>
+							<div style="float:left;width:90%;font-size: 14px;padding-bottom:10px;text-align: left;"><a><b>{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}</b></a></div>
 							<div style="float:left;widht:10%">							
 							{if $MULTI_SELECT}				
 								<input class="entryCheckBox" type="checkbox" data-chk_pid="{$LISTVIEW_ENTRY->getId()}" />				
@@ -103,8 +112,8 @@
 							{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}{$LISTVIEW_ENTRY->get('currencySymbol')}
 						{else}
 							<div style="width: 100%">
-								<div style="float: left;width: 30%;">Price:</div>
-								<div style="float: left;width: 70%;"><b>{$LISTVIEW_ENTRY->get('currencySymbol')}{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}</b></div>
+								<div style="float: left;width: 30%;text-align: left;">Price:</div>
+								<div style="float: left;width: 70%;text-align: left;"><b>{$LISTVIEW_ENTRY->get('currencySymbol')}{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}</b></div>
 							</div>							
 						{/if}
 					{else}
@@ -144,3 +153,20 @@
 	</div>
 {/if}
 {/strip}
+{literal}
+<script type="text/javascript">
+var prod_spec = {"38639":{"label":{"1":"Small","2":"Medium","3":"Large"}},"38652":{"label" :{"1":"Small","2":"Medium","3":"Large"}}};  
+jQuery.each(prod_spec, function (key, data) {	
+	options = '<select id="sel_opt_'+key+'" style="width:70%;">';
+	options += '<option value="">Choose Option</option>';
+	jQuery.each(data, function (index, data1) {
+	  jQuery.each(data1, function (index1, data2) {          
+	  	options += '<option value="'+index1+'">'+data2+'</option>';
+	  })
+	});
+	options += '</select>';
+	jQuery('#opt_val_con_'+key).html(options);		
+	jQuery('#opt_con_'+key).show();
+}); 
+</script>
+{/literal}

@@ -152,7 +152,7 @@ jQuery.Class("Vtiger_Popup_Js",{
 
 		var urlString = (typeof urlOrParams == 'string')? urlOrParams : jQuery.param(urlOrParams);
 		var url = 'index.php?'+urlString;
-		var popupWinRef =  window.open(url, windowName ,'width=800,height=650,resizable=0,scrollbars=1');
+		var popupWinRef =  window.open(url, windowName ,'width=800,height=650,resizable=0,scrollbars=1').focus();
 		if (typeof this.destroy == 'function') {
 			// To remove form elements that have created earlier
 			this.destroy();
@@ -201,7 +201,7 @@ jQuery.Class("Vtiger_Popup_Js",{
 		if(typeof window == 'undefined'){
 			window = self;
 		}
-		//window.close();
+		window.close();
 
 		var len = Object.keys(result).length;		
 		var pop_qty = '1';
@@ -330,6 +330,7 @@ jQuery.Class("Vtiger_Popup_Js",{
 								var ch_pid = jQuery(this).data("chk_pid");
 								var isvalid_qty = jQuery.isNumeric(jQuery('#popup_qty_'+ch_pid).val());															
 								if(!isvalid_qty){
+									jQuery('#popup_qty_'+ch_pid).addClass('qty-empty-highlight');
 									is_valid_qty = false;										
 								}
 				        }
@@ -801,9 +802,12 @@ jQuery.Class("Vtiger_Popup_Js",{
 		var thisInstance = this;
 		var popupPageContentsContainer = this.getPopupPageContainer();
 		popupPageContentsContainer.on('click','.listViewEntries',function(e){
-		    //thisInstance.getListViewEntries(e);
-		    jQuery(this).children().find('input[type=checkbox]').prop('checked', true);
-		    e.stopPropagation();		    
+			if(app.getModuleName() == 'SalesOrder'){
+			    jQuery(this).children().find('input[type=checkbox]').prop('checked', true);
+			    e.stopPropagation();		    							
+			}else{
+				thisInstance.getListViewEntries(e);
+			}
 		});
 	},
 
@@ -942,24 +946,10 @@ jQuery(document).ready(function() {
 			sel_prod_opt_val = sel_prod_opt[1];
 		}
 	}
-	var prod_spec = {"38639":{"label":{"1":"Small","2":"Medium","3":"Large"}},"38652":{"label" :{"1":"Small","2":"Medium","3":"Large"}}};	
-	var options = '';
-	jQuery.each(prod_spec, function (key, data) {	
-		options = '<select id="sel_opt_'+key+'" style="width:70%;">';
-		options += '<option value="">Choose Option</option>';
-		jQuery.each(data, function (index, data1) {
-		  jQuery.each(data1, function (index1, data2) {          
-		  	options += '<option value="'+index1+'">'+data2+'</option>';
-		  })
-		});
-		options += '</select>';
-		jQuery('#opt_val_con_'+key).html(options);		
-		jQuery('#opt_con_'+key).show();
-	});
 	$( "tr.listViewEntries" ).each(function() {
 	  if(sel_prod_id != '' && jQuery(this).data('id') == sel_prod_id){
 	  	jQuery('#popup_qty_'+sel_prod_id).val(sel_qty_val)
-		jQuery(this).closest('table').css({"border-color": "green", "border-width":"2px", "border-style":"solid"});
+		jQuery(this).closest('table').addClass('prod-highlight');
 		$("html, body").scrollTop($(this).offset().top);
 		$("#sel_opt_"+sel_prod_id).val(sel_prod_opt_val).find("option[value=" + sel_prod_opt_val +"]").attr('selected', true);
 		jQuery('#sel_opt_'+sel_prod_id).prop()

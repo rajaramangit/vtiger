@@ -1960,5 +1960,11 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
 		this.makeLineItemsSortable();
 		this.checkLineItemRow();
 		this.registerForRealtionOperation();
+		//hide cuts spec
+		$("textarea[id^='SalesOrder_editView_fieldName_cf_']").each(function(index) {
+			var fcls = jQuery(this).closest('td');			
+			fcls.hide();
+			fcls.prev().hide();						
+		});		
     }
 });
