@@ -57,6 +57,14 @@ Vtiger_Detail_Js("Inventory_Detail_Js",{
 	 * This function will return the current page
 	 */
     getDetails : function(){
+        //hide cuts spec
+        $("td[id^='SalesOrder_detailView_fieldLabel_cf_']").each(function(index) {
+            if(jQuery(this).text().toLowerCase() == 'cut spec'){
+                var fcls = jQuery(this).closest('td');          
+                fcls.hide();
+                fcls.next().hide();                     
+            }
+        });        
         return jQuery('.details');
     }
 

@@ -34,7 +34,7 @@
             </div>
         </div>
     </div>
-    <div class="span6">
+    <div class="span6" style="width: 100%">
         <form class="form-horizontal popupSearchContainer">
             <div class="control-group margin0px">
                 <span class="paddingLeft10px"><strong>{vtranslate('LBL_SEARCH_FOR')}</strong></span>
@@ -55,24 +55,22 @@
                 <span class="paddingLeft10px cursorPointer help-inline" id="popupSearchButton"><img src="{vimage_path('search.png')}" alt="{vtranslate('LBL_SEARCH_BUTTON')}" title="{vtranslate('LBL_SEARCH_BUTTON')}" /></span>
             </div>
         </form>
-        {if $SOURCE_MODULE eq 'SalesOrder'}
-			<div class="control-group margin0px" style="padding-top:15px; ">
-				<span class="cus_srch btn" data-cus_srch="chicken">Chicken</span>&nbsp;&nbsp;
-				<span class="cus_srch btn" data-cus_srch="mutton">Mutton</span>&nbsp;&nbsp;
-				<span class="cus_srch btn" data-cus_srch="seafood">SeaFood</span>&nbsp;&nbsp;
-				<span class="cus_srch active btn " data-cus_srch="">All</span>&nbsp;&nbsp;
-			</div>
-			{/if}                   
     </div>
     {if $SOURCE_MODULE neq 'PriceBooks'}
         <div class="popupPaging">
             <div class="row-fluid">
-                <span class="actions span6">&nbsp;
+                <span class="actions span8">&nbsp;
                     {if $MULTI_SELECT}
-                    {if !empty($LISTVIEW_ENTRIES)}<button class="select btn"><strong>{vtranslate('LBL_SELECT', $MODULE)}</strong></button>{/if}
+                        {if $MODULE eq 'SalesOrder'}
+                        <span class="cus_srch btn" data-cus_srch="chicken">Chicken</span>&nbsp;&nbsp;
+                        <span class="cus_srch btn" data-cus_srch="mutton">Mutton</span>&nbsp;&nbsp;
+                        <span class="cus_srch btn" data-cus_srch="seafood">SeaFood</span>&nbsp;&nbsp;
+                        <span class="cus_srch active btn " data-cus_srch="">All</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {/if}                    
+                    {if !empty($LISTVIEW_ENTRIES)}<button class="select btn"><strong>{vtranslate('LBL_SELECT', $MODULE)} Product</strong></button>{/if}
                 {/if}
             </span>
-            <span class="span6">
+            <span class="span4">
                 <span class="pull-right">
                     <span class="pageNumbers alignTop" data-placement="bottom" data-original-title="">
                     {if !empty($LISTVIEW_ENTRIES)}{$PAGING_MODEL->getRecordStartRange()} {vtranslate('LBL_to', $MODULE)} {$PAGING_MODEL->getRecordEndRange()}{/if}
@@ -101,6 +99,7 @@
             </span>
         </span>
     </div>
+    <br>
 </div>
 
 {/if}

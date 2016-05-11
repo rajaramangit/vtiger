@@ -1962,9 +1962,16 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
 		this.registerForRealtionOperation();
 		//hide cuts spec
 		$("textarea[id^='SalesOrder_editView_fieldName_cf_']").each(function(index) {
-			var fcls = jQuery(this).closest('td');			
-			fcls.hide();
-			fcls.prev().hide();						
-		});		
+			var so_responseData = JSON.parse(jQuery(this).attr('data-fieldinfo'));
+			var so_len = Object.keys(so_responseData).length;
+			if(so_len > 1 && so_responseData.label){
+				if(so_responseData.label.toLowerCase() == 'cut spec'){
+					var fcls = jQuery(this).closest('td');			
+					fcls.hide();
+					fcls.prev().hide();											
+				}
+			}			
+
+		});
     }
 });
