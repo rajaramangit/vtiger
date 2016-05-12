@@ -618,9 +618,9 @@ jQuery.Class("Vtiger_Popup_Js",{
 		var thisInstance = this;
 		var popupPageContentsContainer = this.getPopupPageContainer();
 		popupPageContentsContainer.on('keyup','.popup_qty',function(e){
+			this.value = this.value.replace(/[^0-9\.]/g,'');
 			if(this.value > 0){
-			    $(this).closest('td').find('input[type=checkbox]').prop('checked', true);
-			    this.value = this.value.replace(/[^0-9\.]/g,'');
+			    $(this).closest('td').find('input[type=checkbox]').prop('checked', true);			    
 			}else{
 				$(this).closest('td').find('input[type=checkbox]').prop('checked', false);
 			}
