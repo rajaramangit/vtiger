@@ -50,7 +50,7 @@
 		<input type="hidden" name="hidtax_row_no{$row_no}" id="hidtax_row_no{$row_no}" value="{$tax_row_no}"/>
 		<!-- Product Re-Ordering Feature Code Addition ends -->
 		<div>
-			<input type="text" id="{$productName}" name="{$productName}" value="{$data.$productName}" class="productName {if $row_no neq 0} autoComplete {/if}" placeholder="{vtranslate('LBL_TYPE_SEARCH',$MODULE)}" data-validation-engine="validate[required]" {if !empty($data.$productName)} disabled="disabled" {/if}/>
+			<input type="text" id="{$productName}" name="{$productName}" value="{$data.$productName}"  data-validation-engine="validate[required]" {if !empty($data.$productName)} disabled="disabled" {/if}/>
 			<input type="hidden" id="{$hdnProductId}" name="{$hdnProductId}" value="{$data.$hdnProductId}" class="selectedModuleId"/>
 			<input type="hidden" id="lineItemType{$row_no}" name="lineItemType{$row_no}" value="{$entityType}" class="lineItemType"/>
 			{if $row_no eq 0}
@@ -78,7 +78,7 @@
 				{/if}
 			</div>
 		{else}
-			<div><br><div style='display:none;'><textarea id="{$comment}" name="{$comment}" class="lineItemCommentBox">{$data.$comment}</textarea></div>
+			<div><br><div><textarea style="display: none;" id="{$comment}" name="{$comment}" class="lineItemCommentBox">{$data.$comment}</textarea></div>
 		{/if}
 	</td>
 	<td>

@@ -602,4 +602,5 @@ jQuery.Class("Vtiger_Edit_Js",{
 		this.registerReferenceCreate(editViewForm);
 		//this.triggerDisplayTypeEvent();
 	}
+	
 });
