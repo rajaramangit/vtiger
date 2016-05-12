@@ -324,21 +324,33 @@ jQuery.Class("Vtiger_Popup_Js",{
 			}else{
 				
 				//is quantity valid
-					var is_valid_qty = true;										
+					var is_valid_qty = is_valid_opt = true;	
 		 			jQuery('input[type="checkbox"]').each(function() {
 				        if ($(this).is(":checked")) {
 								var ch_pid = jQuery(this).data("chk_pid");
+								if(jQuery('#sel_opt_'+ch_pid).length && jQuery('#sel_opt_'+ch_pid).val() == ''){
+									jQuery('#sel_opt_'+ch_pid).addClass('qty-empty-highlight');
+									is_valid_opt = false;
+								}
 								var isvalid_qty = jQuery.isNumeric(jQuery('#popup_qty_'+ch_pid).val());															
 								if(!isvalid_qty){
 									jQuery('#popup_qty_'+ch_pid).addClass('qty-empty-highlight');
-									is_valid_qty = false;										
+									is_valid_qty = false;
 								}
 				        }
 				    });
-				    if(!is_valid_qty){
-				    	alert('Please enter valid quantity')
+				    if(!is_valid_qty && !is_valid_opt){
+				    	alert('Please enter a valid quantity and optoin');
 				    	return false;
 				    }
+				    else if(!is_valid_qty){
+				    	alert('Please enter a valid quantity');
+				    	return false;
+				    }
+				    else if(!is_valid_opt){
+				    	alert('Please select a valid option');
+				    	return false;
+				    }				    
 //		
 				
 				if(typeof dataUrl != 'undefined'){
@@ -606,8 +618,12 @@ jQuery.Class("Vtiger_Popup_Js",{
 		var thisInstance = this;
 		var popupPageContentsContainer = this.getPopupPageContainer();
 		popupPageContentsContainer.on('keyup','.popup_qty',function(e){
-		    $(this).closest('td').find('input[type=checkbox]').prop('checked', true);
-		    this.value = this.value.replace(/[^0-9\.]/g,'');
+			if(this.value > 0){
+			    $(this).closest('td').find('input[type=checkbox]').prop('checked', true);
+			    this.value = this.value.replace(/[^0-9\.]/g,'');
+			}else{
+				$(this).closest('td').find('input[type=checkbox]').prop('checked', false);
+			}
 		});
 	},
 
@@ -803,7 +819,7 @@ jQuery.Class("Vtiger_Popup_Js",{
 		var popupPageContentsContainer = this.getPopupPageContainer();
 		popupPageContentsContainer.on('click','.listViewEntries',function(e){
 			if(app.getModuleName() == 'SalesOrder'){
-			    jQuery(this).children().find('input[type=checkbox]').prop('checked', true);
+			    //jQuery(this).children().find('input[type=checkbox]').prop('checked', true);
 			    e.stopPropagation();		    							
 			}else{
 				thisInstance.getListViewEntries(e);
