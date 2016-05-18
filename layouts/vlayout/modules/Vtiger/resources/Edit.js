@@ -586,6 +586,9 @@ jQuery.Class("Vtiger_Edit_Js",{
 	},
 
 	registerEvents: function(){
+
+
+
 		var editViewForm = this.getForm();
 		var statusToProceed = this.proceedRegisterEvents();
 		if(!statusToProceed){
@@ -601,6 +604,103 @@ jQuery.Class("Vtiger_Edit_Js",{
 
 		this.registerReferenceCreate(editViewForm);
 		//this.triggerDisplayTypeEvent();
+
+//area and store mapping
+		var area_store	= {"27": {"Adayar" : {"5":"Nehru nagar","7":"Adayar singnal","8":"Adayar Beach"}}, "30":{"Okiyam Thuraipakkam" : {"10":"pandiyan salai","12":"Karapakkam","15":"Perumbakkam"}},"23": {"Velachery" : {"16":"Palli karanai","17":"vijaya Nagar"}}};
+		var area_ary	= store_ary = new Array();
+		var area_lst	= '<option value="">Select an Option</option>';
+		jQuery.each(area_store, function(key,val) {
+			jQuery.each(val, function(key1,val1) {
+				area_lst += '<option value="'+key+'">'+key1+'</option>';
+				store_lst = '<option value="">Select an Option</option>';
+				jQuery.each(val1, function(key2,val2) {
+					store_lst += '<option value="'+key2+'">'+val2+'</option>';
+				});		
+				var object1 = {};
+				object1[key] = store_lst;
+				store_ary.push(object1);
+			});
+		});
+
+		var store_con_id = '';
+		var area_con_id = '';
+		$("select[id^='sel']").each(function(index) {
+			var so_responseData = JSON.parse(jQuery(this).attr('data-fieldinfo'));
+			var so_len = Object.keys(so_responseData).length;
+			if(so_len > 1 && so_responseData.label && so_responseData.label.toLowerCase() == 'store'){
+				store_con_id = jQuery(this).attr('id');
+				$('#'+store_con_id).attr('disabled','disabled');
+				$("#"+store_con_id).trigger("liszt:updated");				
+			}			
+			if(so_len > 1 && so_responseData.label && so_responseData.label.toLowerCase() == 'area'){
+				$(this).html(area_lst);
+				area_con_id = $(this).attr('id');
+				$("#"+jQuery(this).attr('id')).trigger("liszt:updated");
+				$('#'+jQuery(this).attr('id')).on('change', function(e) {					
+					var area_id = $(this).val();
+					if( area_id != '' && area_id > 0 ){						
+						jQuery.each(store_ary, function(s_key,s_val) {
+							if(typeof s_val[area_id] != 'undefined'){
+								$('#'+store_con_id).attr('disabled',false);
+								$('#'+store_con_id).html(s_val[area_id]);
+								$("#"+store_con_id).trigger("liszt:updated");								
+							}
+						});
+					}else{
+						$('#'+store_con_id).attr('disabled','disabled');
+						$("#"+store_con_id).trigger("liszt:updated");
+					}
+				});				
+			}
+		});	
+		$('#'+store_con_id).on('change', function(e) {
+			$("textarea").each(function(index) {
+				var so_responseData = JSON.parse(jQuery(this).attr('data-fieldinfo'));				
+				var so_len = Object.keys(so_responseData).length;
+				if(so_len > 1 && so_responseData.label){
+					if(so_responseData.label.toLowerCase() == 'area store'){
+						var selected_val = '';
+						if(jQuery('#'+store_con_id+' option:selected').val() != ''){							
+							selected_val = $('#'+area_con_id+' option:selected').val() + '###'+ $('#'+store_con_id+' option:selected').val()+
+							'@@@'+$('#'+area_con_id+' option:selected').text()+'###'+$('#'+store_con_id+' option:selected').text();
+						}
+						$(this).val(selected_val);
+						$(this).parents('td').prev('td').hide();
+						$(this).parents('td').hide();
+					}
+				}			
+			});			
+		});	
+
+//hide text area
+			$("textarea").each(function(index) {
+				var so_responseData = JSON.parse(jQuery(this).attr('data-fieldinfo'));				
+				var so_len = Object.keys(so_responseData).length;
+				if(so_len > 1 && so_responseData.label){
+					if(so_responseData.label.toLowerCase() == 'area store'){
+						$(this).parents('td').prev('td').hide();
+						$(this).parents('td').hide();
+						var prev_val = $(this).val().split('@@@')[0].split('###');
+						if(prev_val && typeof prev_val != 'undefined'){
+							$('#'+area_con_id+' option[value='+prev_val[0]+']').attr('selected','selected');
+							jQuery.each(store_ary, function(s_key,s_val) {
+								if(typeof s_val[prev_val[0]] != 'undefined'){
+									$('#'+store_con_id).attr('disabled',false);
+									$('#'+store_con_id).html(s_val[prev_val[0]]);								
+								}
+							});							
+							$('#'+store_con_id+' option[value='+prev_val[1]+']').attr('selected','selected');
+							$('#'+store_con_id).attr('disabled',false);
+							
+							$("#"+area_con_id).trigger("liszt:updated");							
+							$("#"+store_con_id).trigger("liszt:updated");															
+						}			
+					}
+				}			
+			});			
+//hide text area
+
+//		
+
 	}
-	
 });
