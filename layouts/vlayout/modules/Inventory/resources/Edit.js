@@ -610,9 +610,12 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
 			lineItemNameElment.attr('disabled', 'disabled');
 			jQuery('input.listPrice',parentRow).val(unitPrice);
 			jQuery('textarea.lineItemCommentBox',parentRow).val(description);
-			jQuery('.qty',parentRow).val(popup_qty);
+			jQuery('.qty',parentRow).val(popup_qty);			
 			if(popup_cmnt){
 				jQuery('.lineItemCommentBox',parentRow).val(popup_cmnt.split('###')[0]).attr('disabled','disabled');
+				jQuery('.lineItemCommentBox',parentRow).val(popup_cmnt.split('###')[0]).show();
+			}else{
+				jQuery('.lineItemCommentBox',parentRow).hide()
 			}	
 			var taxUI = this.getTaxDiv(taxes,parentRow);
 			jQuery('.taxDivContainer',parentRow).html(taxUI);
@@ -1629,8 +1632,54 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
 	mapAddressDetails : function(addressDetails, result, container) {
 		for(var key in addressDetails) {
 			container.find('[name="'+key+'"]').val(result[addressDetails[key]]);
-			container.find('[name="'+key+'"]').trigger('change');
+			container.find('[name="'+key+'"]').trigger('change');			
 		}
+//get custom field of area and store
+		var area_store_prev_val = '';
+		var hid_area_store = $('#hid_area_store').val();
+		var area_con_id = hid_area_store.split('###')[0];
+		var store_con_id = hid_area_store.split('###')[1];
+		is_cf_avail = false;					
+		jQuery.each(result, function(key,val) {					
+			if (/cf_/i.test(key) && /@@@/i.test(result[key]) && /###/i.test(result[key])){
+				area_store_prev_val = result[key];
+				var prev_val = result[key].split('@@@')[0].split('###');			
+				$('#'+area_con_id+' option[value='+prev_val[0]+']').attr('selected','selected');
+				jQuery.each(store_ary, function(s_key,s_val) {
+					if(typeof s_val[prev_val[0]] != 'undefined'){
+						$('#'+store_con_id).attr('disabled',false);
+						$('#'+store_con_id).html(s_val[prev_val[0]]);
+						$('#'+store_con_id+' option[value='+prev_val[1]+']').attr('selected','selected');
+					}
+				});				
+				$("#"+area_con_id).trigger("liszt:updated");							
+				$("#"+store_con_id).trigger("liszt:updated");
+				is_cf_avail = true;
+			}
+		});
+		if(!is_cf_avail){
+			$('#'+area_con_id).html('').html($('#hid_area_opt').val());
+			$('#'+area_con_id).removeAttr("selected");
+			$('#'+store_con_id).html('').attr('disabled',true);
+
+			$("#"+area_con_id).trigger("liszt:updated");							
+			$("#"+store_con_id).trigger("liszt:updated");									
+		}		
+		if(area_store_prev_val){
+			$("textarea").each(function(index) {
+				var attr = $(this).attr('data-fieldinfo');
+				if (typeof attr !== typeof undefined && attr !== false) {
+					var so_responseData = JSON.parse(attr);	
+					var so_len = Object.keys(so_responseData).length;
+					if(so_len > 1 && so_responseData.label){
+						if(so_responseData.label.toLowerCase() == 'area store'){
+							$(this).val(area_store_prev_val);					
+						}
+					}
+				}
+			});			
+		}
+//get custom field of area and store
 	},
 
 	registerLineItemAutoComplete : function(container) {

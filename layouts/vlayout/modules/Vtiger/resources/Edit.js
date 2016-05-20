@@ -653,6 +653,14 @@ jQuery.Class("Vtiger_Edit_Js",{
 				});				
 			}
 		});
+		if(store_con_id && area_con_id){
+			$('#hid_area_store').val(area_con_id+'###'+store_con_id);			
+		}
+		if(area_lst && store_ary){
+			$('#hid_area_opt').val(area_lst);
+			$('#hid_store_opt').val(store_ary);
+			
+		}
 		if(store_con_id){
 			$('#'+store_con_id).on('change', function(e) {
 				$("textarea").each(function(index) {
@@ -675,29 +683,32 @@ jQuery.Class("Vtiger_Edit_Js",{
 		}
 //hide text area
 		$("textarea").each(function(index) {
-			var so_responseData = JSON.parse(jQuery(this).attr('data-fieldinfo'));				
-			var so_len = Object.keys(so_responseData).length;
-			if(so_len > 1 && so_responseData.label){
-				if(so_responseData.label.toLowerCase() == 'area store'){
-					$(this).parents('td').prev('td').hide();
-					$(this).parents('td').hide();
-					var prev_val = $(this).val().split('@@@')[0].split('###');
-					if(prev_val && typeof prev_val != 'undefined'){
-						$('#'+area_con_id+' option[value='+prev_val[0]+']').attr('selected','selected');
-						if(typeof prev_val[0] != 'undefined' && prev_val[1] != 'undefined'){
-							jQuery.each(store_ary, function(s_key,s_val) {
-								if(typeof s_val[prev_val[0]] != 'undefined'){
-									$('#'+store_con_id).attr('disabled',false);
-									$('#'+store_con_id).html(s_val[prev_val[0]]);
-									$('#'+store_con_id+' option[value='+prev_val[1]+']').attr('selected','selected');										
-								}
-							});																							
-							$("#"+area_con_id).trigger("liszt:updated");							
-							$("#"+store_con_id).trigger("liszt:updated");																							
-						}
-					}			
+			var attr = $(this).attr('data-fieldinfo');
+			if (typeof attr !== typeof undefined && attr !== false) {
+				var so_responseData = JSON.parse(attr);	
+				var so_len = Object.keys(so_responseData).length;
+				if(so_len > 1 && so_responseData.label){
+					if(so_responseData.label.toLowerCase() == 'area store'){
+						$(this).parents('td').prev('td').hide();
+						$(this).parents('td').hide();
+						var prev_val = $(this).val().split('@@@')[0].split('###');
+						if(prev_val && typeof prev_val != 'undefined'){
+							$('#'+area_con_id+' option[value='+prev_val[0]+']').attr('selected','selected');
+							if(typeof prev_val[0] != 'undefined' && prev_val[1] != 'undefined'){
+								jQuery.each(store_ary, function(s_key,s_val) {
+									if(typeof s_val[prev_val[0]] != 'undefined'){
+										$('#'+store_con_id).attr('disabled',false);
+										$('#'+store_con_id).html(s_val[prev_val[0]]);
+										$('#'+store_con_id+' option[value='+prev_val[1]+']').attr('selected','selected');										
+									}
+								});																							
+								$("#"+area_con_id).trigger("liszt:updated");							
+								$("#"+store_con_id).trigger("liszt:updated");																							
+							}
+						}			
+					}
 				}
-			}			
+			}
 		});			
 //hide text area
 
