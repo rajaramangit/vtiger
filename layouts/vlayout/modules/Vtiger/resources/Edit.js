@@ -584,7 +584,6 @@ jQuery.Class("Vtiger_Edit_Js",{
 		//To Trigger the change on load
 		sourcePickListElements.trigger('change');
 	},
-
 	registerEvents: function(){
 
 
@@ -606,83 +605,86 @@ jQuery.Class("Vtiger_Edit_Js",{
 		//this.triggerDisplayTypeEvent();
 
 //area and store mapping
-		var area_store	= {"27": {"Adayar" : {"5":"Nehru nagar","7":"Adayar singnal","8":"Adayar Beach"}}, "30":{"Okiyam Thuraipakkam" : {"10":"pandiyan salai","12":"Karapakkam","15":"Perumbakkam"}},"23": {"Velachery" : {"16":"Palli karanai","17":"vijaya Nagar"}}};
+//getting area and store options
+		var area_store	= {"1": {"Thoraipakkam" : {"1":"Chemmencheri","2":"Kandanchavadi","3":"Karapakkam","4":"Navalur","5":"Neelangarai","6":"Okkiyam Thoraipakkam","7":"Palavakkam","8":"Pandian Salai","9":"Perumbakkam","10":"Perungudi","11":"PTC-Thoraipakkam","12":"Sholinganallur"}}};
 		var area_ary	= store_ary = new Array();
 		var area_lst	= '<option value="">Select an Option</option>';
 		jQuery.each(area_store, function(key,val) {
 			jQuery.each(val, function(key1,val1) {
 				area_lst += '<option value="'+key+'">'+key1+'</option>';
-				store_lst = '<option value="">Select an Option</option>';
+				store_lst = '';
 				jQuery.each(val1, function(key2,val2) {
-					store_lst += '<option value="'+key2+'">'+val2+'</option>';
+					store_lst += '<option value="'+key+'###'+key2+'">'+val2+'</option>';
 				});		
 				var object1 = {};
 				object1[key] = store_lst;
 				store_ary.push(object1);
 			});
 		});
-
+//getting area and store options
 		var store_con_id = '';
 		var area_con_id = '';
 		$("select[id^='sel']").each(function(index) {
 			var so_responseData = JSON.parse(jQuery(this).attr('data-fieldinfo'));
 			var so_len = Object.keys(so_responseData).length;
-			if(so_len > 1 && so_responseData.label && so_responseData.label.toLowerCase() == 'store'){
-				store_con_id = jQuery(this).attr('id');
-				$('#'+store_con_id).attr('disabled','disabled');
-				$("#"+store_con_id).trigger("liszt:updated");				
-			}			
 			if(so_len > 1 && so_responseData.label && so_responseData.label.toLowerCase() == 'area'){
-				$(this).html(area_lst);
+				store_con_id = jQuery(this).attr('id');
+				store_opt_new = '<option value="">Select an Option</option>';
+				jQuery.each(store_ary, function(s_key,s_val) {
+					jQuery.each(s_val, function(s_key1,s_val2) {
+						store_opt_new +=s_val2;
+					});	
+
+					$('#'+store_con_id).html(store_opt_new);					
+				});
+				$("#"+store_con_id).trigger("liszt:updated");				
+			}
+			if(so_len > 1 && so_responseData.label && so_responseData.label.toLowerCase() == 'store'){
 				area_con_id = $(this).attr('id');
-				$("#"+jQuery(this).attr('id')).trigger("liszt:updated");
-				$('#'+jQuery(this).attr('id')).on('change', function(e) {					
-					var area_id = $(this).val();
-					if( area_id != '' && area_id > 0 ){						
-						jQuery.each(store_ary, function(s_key,s_val) {
-							if(typeof s_val[area_id] != 'undefined'){
-								$('#'+store_con_id).attr('disabled',false);
-								$('#'+store_con_id).html(s_val[area_id]);
-								$("#"+store_con_id).trigger("liszt:updated");								
-							}
-						});
-					}else{
-						$('#'+store_con_id).attr('disabled','disabled');
-						$("#"+store_con_id).trigger("liszt:updated");
-					}
-				});				
+				$(this).html(area_lst);
+				$('#'+area_con_id).attr('disabled','disabled');
+				$("#"+area_con_id).trigger("liszt:updated");
 			}
 		});
+
 		if(store_con_id && area_con_id){
 			$('#hid_area_store').val(area_con_id+'###'+store_con_id);			
 		}
 		if(area_lst && store_ary){
-			$('#hid_area_opt').val(area_lst);
-			$('#hid_store_opt').val(store_ary);
-			
+			$('#hid_area_opt').val(JSON.stringify(area_lst));
+			$('#hid_store_opt').val(JSON.stringify(store_ary));
 		}
-		if(store_con_id){
+		if(store_con_id){			
 			$('#'+store_con_id).on('change', function(e) {
-				$("textarea").each(function(index) {
-					var so_responseData = JSON.parse(jQuery(this).attr('data-fieldinfo'));				
-					var so_len = Object.keys(so_responseData).length;
-					if(so_len > 1 && so_responseData.label){
-						if(so_responseData.label.toLowerCase() == 'area store'){
-							var selected_val = '';
-							if(jQuery('#'+store_con_id+' option:selected').val() != ''){							
-								selected_val = $('#'+area_con_id+' option:selected').val() + '###'+ $('#'+store_con_id+' option:selected').val()+
-								'@@@'+$('#'+area_con_id+' option:selected').text()+'###'+$('#'+store_con_id+' option:selected').text();
+				var area_for_store = jQuery(this).val().split('###')[0];
+ 				$('#'+area_con_id+' option[value='+area_for_store+']').attr('selected','selected');
+				$('#'+area_con_id).attr('disabled','disabled');
+				$("#"+area_con_id).trigger("liszt:updated");
+					var selected_val = '';
+					if(jQuery(this).val()){
+						selected_val = jQuery(this).val()+'@@@'+$(this).find("option:selected").text()+'###'+$('#'+area_con_id).find("option:selected").text();
+					}
+					$("input[id^='SalesOrder_editView_fieldName_cf_'],input[id^='Accounts_editView_fieldName_cf_']").each(function(index) {
+						var attr = $(this).attr('data-fieldinfo');
+						if (typeof attr !== typeof undefined && attr !== false) {
+							var so_responseData = JSON.parse(jQuery(this).attr('data-fieldinfo'));				
+							var so_len = Object.keys(so_responseData).length;
+							if(so_len > 1 && so_responseData.label){
+								if(so_responseData.label.toLowerCase() == 'area store'){
+									var prev_val = $(this).val().split('@@@')[0];
+									$('#'+store_con_id).val(prev_val);			
+									$(this).val(selected_val);
+									$(this).parents('td').prev('td').hide();
+									$(this).parents('td').hide();
+								}
 							}
-							$(this).val(selected_val);
-							$(this).parents('td').prev('td').hide();
-							$(this).parents('td').hide();
 						}
-					}			
-				});			
+					});					
+					
 			});				
 		}
 //hide text area
-		$("textarea").each(function(index) {
+		$("input[id^='SalesOrder_editView_fieldName_cf_'],input[id^='Accounts_editView_fieldName_cf_']").each(function(index) {
 			var attr = $(this).attr('data-fieldinfo');
 			if (typeof attr !== typeof undefined && attr !== false) {
 				var so_responseData = JSON.parse(attr);	
@@ -691,28 +693,20 @@ jQuery.Class("Vtiger_Edit_Js",{
 					if(so_responseData.label.toLowerCase() == 'area store'){
 						$(this).parents('td').prev('td').hide();
 						$(this).parents('td').hide();
-						var prev_val = $(this).val().split('@@@')[0].split('###');
+						var prev_val = $(this).val().split('@@@')[0];
 						if(prev_val && typeof prev_val != 'undefined'){
-							$('#'+area_con_id+' option[value='+prev_val[0]+']').attr('selected','selected');
-							if(typeof prev_val[0] != 'undefined' && prev_val[1] != 'undefined'){
-								jQuery.each(store_ary, function(s_key,s_val) {
-									if(typeof s_val[prev_val[0]] != 'undefined'){
-										$('#'+store_con_id).attr('disabled',false);
-										$('#'+store_con_id).html(s_val[prev_val[0]]);
-										$('#'+store_con_id+' option[value='+prev_val[1]+']').attr('selected','selected');										
-									}
-								});																							
-								$("#"+area_con_id).trigger("liszt:updated");							
-								$("#"+store_con_id).trigger("liszt:updated");																							
-							}
+							$('#'+store_con_id).val(prev_val);
+							$("#"+store_con_id).trigger("liszt:updated");
+							var pre_store_sel_val = prev_val.split('###')[0];
+							$('#'+area_con_id).val(pre_store_sel_val);
+							$("#"+area_con_id).trigger("liszt:updated");							
 						}			
 					}
 				}
 			}
-		});			
+		});		
 //hide text area
-
-//		
+//area and store mapping
 
 	}
 });

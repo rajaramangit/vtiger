@@ -1642,43 +1642,64 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
 		is_cf_avail = false;					
 		jQuery.each(result, function(key,val) {					
 			if (/cf_/i.test(key) && /@@@/i.test(result[key]) && /###/i.test(result[key])){
-				area_store_prev_val = result[key];
-				var prev_val = result[key].split('@@@')[0].split('###');			
-				$('#'+area_con_id+' option[value='+prev_val[0]+']').attr('selected','selected');
-				jQuery.each(store_ary, function(s_key,s_val) {
-					if(typeof s_val[prev_val[0]] != 'undefined'){
-						$('#'+store_con_id).attr('disabled',false);
-						$('#'+store_con_id).html(s_val[prev_val[0]]);
-						$('#'+store_con_id+' option[value='+prev_val[1]+']').attr('selected','selected');
-					}
-				});				
+				area_store_prev_val 	=	result[key];
+				var prev_val 			= 	result[key].split('@@@')[0];
+				var pre_store_sel_val	=	prev_val.split('###')[0];						
+				$('#'+store_con_id).val(prev_val);				
+				$('#'+area_con_id).val(pre_store_sel_val);
 				$("#"+area_con_id).trigger("liszt:updated");							
 				$("#"+store_con_id).trigger("liszt:updated");
 				is_cf_avail = true;
-			}
+			}			
 		});
-		if(!is_cf_avail){
-			$('#'+area_con_id).html('').html($('#hid_area_opt').val());
-			$('#'+area_con_id).removeAttr("selected");
-			$('#'+store_con_id).html('').attr('disabled',true);
-
-			$("#"+area_con_id).trigger("liszt:updated");							
-			$("#"+store_con_id).trigger("liszt:updated");									
+		if(!is_cf_avail){			
+			//pre populate store option
+			store_opt_new = '<option value="">Select an Option</option>';
+			store_ary = JSON.parse($('#hid_store_opt').val());
+			jQuery.each(store_ary, function(s_key,s_val) {
+				jQuery.each(s_val, function(s_key1,s_val2) {
+					store_opt_new +=s_val2;
+				});
+			});				
+			$('#'+store_con_id).html(store_opt_new);
+			$('#'+area_con_id).html(JSON.parse($('#hid_area_opt').val())).attr('disabled',true);
 		}		
-		if(area_store_prev_val){
-			$("textarea").each(function(index) {
-				var attr = $(this).attr('data-fieldinfo');
-				if (typeof attr !== typeof undefined && attr !== false) {
-					var so_responseData = JSON.parse(attr);	
-					var so_len = Object.keys(so_responseData).length;
-					if(so_len > 1 && so_responseData.label){
-						if(so_responseData.label.toLowerCase() == 'area store'){
-							$(this).val(area_store_prev_val);					
+		$("#"+area_con_id).trigger("liszt:updated");							
+		$("#"+store_con_id).trigger("liszt:updated");											
+		$("input[id^='SalesOrder_editView_fieldName_cf_'],input[id^='Accounts_editView_fieldName_cf_']").each(function(index) {
+			var attr = $(this).attr('data-fieldinfo');
+			if (typeof attr !== typeof undefined && attr !== false) {
+				var so_responseData = JSON.parse(attr);	
+				var so_len 			= Object.keys(so_responseData).length;
+				if(so_len > 1 && so_responseData.label){
+					if(so_responseData.label.toLowerCase() == 'area store'){
+						if(!is_cf_avail){
+							$(this).val('');
+						}else{
+							$(this).val(area_store_prev_val);
 						}
 					}
 				}
-			});			
-		}
+			}
+		});	
+		$('#'+store_con_id).on('change', function(e) {
+			var selected_val = '';
+			if(jQuery(this).val()){
+				selected_val = jQuery(this).val()+'@@@'+$(this).find("option:selected").text()+'###'+$('#'+area_con_id).find("option:selected").text();	
+			}			
+			$("input[id^='SalesOrder_editView_fieldName_cf_']").each(function(index) {
+				var attr = $(this).attr('data-fieldinfo');
+				if (typeof attr !== typeof undefined && attr !== false) {
+					var so_responseData = JSON.parse(jQuery(this).attr('data-fieldinfo'));				
+					var so_len = Object.keys(so_responseData).length;
+					if(so_len > 1 && so_responseData.label){
+						if(so_responseData.label.toLowerCase() == 'area store'){			
+							$(this).val(selected_val);
+						}
+					}
+				}
+			});
+		});			
 //get custom field of area and store
 	},
 
