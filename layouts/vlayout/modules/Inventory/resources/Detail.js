@@ -64,6 +64,12 @@ Vtiger_Detail_Js("Inventory_Detail_Js",{
                 fcls.hide();
                 fcls.next().hide();                     
             }
+            if(jQuery(this).text().toLowerCase() == 'area store'){
+                var fcls = jQuery(this).closest('td');
+                fcls.closest( "tr" ).prev().hide();                     
+                var hid_html = fcls.next().text().split('@@@')[1].replace('###', ' ');
+                fcls.next().text(hid_html);
+            }            
         });        
         return jQuery('.details');
     }
