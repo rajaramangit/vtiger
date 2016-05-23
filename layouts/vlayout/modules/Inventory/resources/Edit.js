@@ -1683,22 +1683,22 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
 			}
 		});	
 		$('#'+store_con_id).on('change', function(e) {
-			var selected_val = '';
-			if(jQuery(this).val()){
-				selected_val = jQuery(this).val()+'@@@'+$(this).find("option:selected").text()+'###'+$('#'+area_con_id).find("option:selected").text();	
-			}			
-			$("input[id^='SalesOrder_editView_fieldName_cf_']").each(function(index) {
-				var attr = $(this).attr('data-fieldinfo');
-				if (typeof attr !== typeof undefined && attr !== false) {
-					var so_responseData = JSON.parse(jQuery(this).attr('data-fieldinfo'));				
-					var so_len = Object.keys(so_responseData).length;
-					if(so_len > 1 && so_responseData.label){
-						if(so_responseData.label.toLowerCase() == 'area store'){			
-							$(this).val(selected_val);
-						}
-					}
-				}
-			});
+			// var selected_val = '';
+			// if(jQuery(this).val()){
+			// 	selected_val = jQuery(this).val()+'@@@'+$(this).find("option:selected").text()+'###'+$('#'+area_con_id).find("option:selected").text();	
+			// }
+			// $("input[id^='SalesOrder_editView_fieldName_cf_']").each(function(index) {
+			// 	var attr = $(this).attr('data-fieldinfo');
+			// 	if (typeof attr !== typeof undefined && attr !== false) {
+			// 		var so_responseData = JSON.parse(jQuery(this).attr('data-fieldinfo'));				
+			// 		var so_len = Object.keys(so_responseData).length;
+			// 		if(so_len > 1 && so_responseData.label){
+			// 			if(so_responseData.label.toLowerCase() == 'area store'){			
+			// 				$(this).val(selected_val);
+			// 			}
+			// 		}
+			// 	}
+			// });
 		});			
 //get custom field of area and store
 	},

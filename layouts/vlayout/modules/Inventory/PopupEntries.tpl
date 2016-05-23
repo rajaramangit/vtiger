@@ -55,7 +55,7 @@
 		border: red 1px solid !important;
 	}
 	table{
-		height: 400px;
+		height: 430px;
 	}	
 </style>
 
@@ -95,16 +95,22 @@
 
 						{if $temp_val == 1}
 							<div style="width: 100%;display: none;" id="opt_con_{$LISTVIEW_ENTRY->getId()}">
-								<div style="float: left;width: 30%;text-align: left;">Options : </div>
-								<div style="float: left;width: 70%;text-align: left;" id="opt_val_con_{$LISTVIEW_ENTRY->getId()}"></div>
+								<div style="float: left;width: 35%;text-align: left;">Options : </div>
+								<div style="float: left;width: 65%;text-align: left;" id="opt_val_con_{$LISTVIEW_ENTRY->getId()}"></div>
 							</div>
 							<div style="width: 100%">
-								<div style="float: left;width: 30%;text-align: left;">Quantity:</div>
-								<div style="float: left;width: 70%;text-align: left;">									
-									<input id="popup_cmt_{$LISTVIEW_ENTRY->getId()}" type="hidden"></input>
-									<input type="text" class="span2 popup_qty" id="popup_qty_{$LISTVIEW_ENTRY->getId()}" value="" style="width: 50px;"></input>&nbsp;&nbsp;Kg
+								<div style="float: left;width: 35%;text-align: left;">Quantity:</div>
+								<div style="float: left;width: 65%;text-align: left;">									
+									<!-- <input id="popup_cmt_{$LISTVIEW_ENTRY->getId()}" type="hidden"></input> -->
+									<input type="text" class="span2 popup_qty" id="popup_qty_{$LISTVIEW_ENTRY->getId()}" value="" style="width: 70%;"></input>&nbsp;&nbsp;Kg
 								</div>
-							</div>		
+							</div>
+							<div style="width: 100%">
+								<div style="float: left;width: 35%;text-align: left;">Description:</div>
+								<div style="float: left;width: 65%;text-align: left;">
+									<textarea id="popup_prod_desc_{$LISTVIEW_ENTRY->getId()}" style="width: 70%;"></textarea>									
+								</div>
+							</div>									
 						{/if}					
 					{else if $LISTVIEW_HEADER->get('uitype') eq '72'}
 						{assign var=CURRENCY_SYMBOL_PLACEMENT value={$CURRENT_USER_MODEL->get('currency_symbol_placement')}}
@@ -112,8 +118,8 @@
 							{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}{$LISTVIEW_ENTRY->get('currencySymbol')}
 						{else}
 							<div style="width: 100%">
-								<div style="float: left;width: 30%;text-align: left;">Price:</div>
-								<div style="float: left;width: 70%;text-align: left;"><b>{$LISTVIEW_ENTRY->get('currencySymbol')}{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}</b></div>
+								<div style="float: left;width: 35%;text-align: left;">Price:</div>
+								<div style="float: left;width: 65%;text-align: left;"><b>{$LISTVIEW_ENTRY->get('currencySymbol')}{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}</b></div>
 							</div>							
 						{/if}
 					{else}
@@ -154,8 +160,8 @@
 {/if}
 {/strip}
 {literal}
+<script type="text/javascript" src="js/product_json.js"></script>
 <script type="text/javascript">
-var prod_spec = {"38639":{"label":{"1":"Small","2":"Medium","3":"Large"}},"38652":{"label" :{"1":"Small","2":"Medium","3":"Large"}}};  
 jQuery.each(prod_spec, function (key, data) {	
 	options = '<select id="sel_opt_'+key+'" style="width:70%;">';
 	options += '<option value="">Choose Option</option>';

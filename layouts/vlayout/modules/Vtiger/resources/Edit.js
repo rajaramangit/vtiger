@@ -662,8 +662,33 @@ jQuery.Class("Vtiger_Edit_Js",{
 				$("#"+area_con_id).trigger("liszt:updated");
 					var selected_val = '';
 					if(jQuery(this).val()){
+						
+						var bill_street = $('#SalesOrder_editView_fieldName_bill_street').val();
+						var bill_st_ary = bill_street.split('###');
+						var ori_bill_street = '';
+						if(bill_st_ary.length > 1){
+							ori_bill_street = bill_st_ary[0];
+						}else{
+							ori_bill_street = bill_street; 
+						}
+						ori_bill_street = ori_bill_street+'###'+$(this).find("option:selected").text();
+						$('#SalesOrder_editView_fieldName_bill_street').val(ori_bill_street);
+
+						
+
+						var ship_street = $('#SalesOrder_editView_fieldName_ship_street').val();
+						var ship_st_ary = ship_street.split('###');
+						ori_ship_street = '';
+						if(ship_st_ary.length > 1){
+							ori_ship_street = ship_st_ary[0];
+						}else{
+							ori_ship_street = ship_street; 
+						}
+						ori_ship_street = ori_ship_street+'###'+$(this).find("option:selected").text();
+						$('#SalesOrder_editView_fieldName_ship_street').val(ori_ship_street);
+
 						selected_val = jQuery(this).val()+'@@@'+$(this).find("option:selected").text()+'###'+$('#'+area_con_id).find("option:selected").text();
-					}
+					}					
 					$("input[id^='SalesOrder_editView_fieldName_cf_'],input[id^='Accounts_editView_fieldName_cf_']").each(function(index) {
 						var attr = $(this).attr('data-fieldinfo');
 						if (typeof attr !== typeof undefined && attr !== false) {
