@@ -196,11 +196,15 @@ jQuery.Class("Vtiger_Base_Validator_Js",{
 		    if(tr_id && tr_id != 'undefined'){
 		    	if(tr_id != 0){
 		    		if(jQuery('#popup_cmnt_hidden_'+tr_id).length){
-		    			var popup_cmnt_hid = jQuery('#popup_cmnt_hidden_'+tr_id).val().split('###');		    			
+		    			var popup_cmnt_hid = jQuery('#popup_cmnt_hidden_'+tr_id).val().split('###');
 						if(popup_cmnt_hid.length > 1){
 							cut_spec_str += popup_cmnt_hid[0] + ',';
 						}else{
-							cut_spec_str +=  'null,';
+							if(popup_cmnt_hid.length == 1){
+								cut_spec_str +=  popup_cmnt_hid+',';	
+							}else{
+								cut_spec_str +=  'null,';	
+							}
 						}							    			
 		    		}else{
 		    			cut_spec_str +=  'null,';
