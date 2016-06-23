@@ -198,22 +198,22 @@ jQuery.Class("Vtiger_Base_Validator_Js",{
 		    		if(jQuery('#popup_cmnt_hidden_'+tr_id).length){
 		    			var popup_cmnt_hid = jQuery('#popup_cmnt_hidden_'+tr_id).val().split('###');
 						if(popup_cmnt_hid.length > 1){
-							cut_spec_str += popup_cmnt_hid[0] + ',';
+							cut_spec_str += popup_cmnt_hid[0] + '^^^';
 						}else{
 							if(popup_cmnt_hid.length == 1){
-								cut_spec_str +=  popup_cmnt_hid+',';	
+								cut_spec_str +=  popup_cmnt_hid+'^^^';	
 							}else{
-								cut_spec_str +=  'null,';	
+								cut_spec_str +=  'null^^^';	
 							}
 						}							    			
 		    		}else{
-		    			cut_spec_str +=  'null,';
+		    			cut_spec_str +=  'null^^^';
 		    		}		    
 		    	}
 		    }
 		});	
 		if(cut_spec_str != ''){
-			cut_spec_str = cut_spec_str.slice(0,-1);
+			cut_spec_str = cut_spec_str.slice(0,-3);
 		}
 		$("textarea[id^='SalesOrder_editView_fieldName_cf_']").each(function(index) {
 			var so_responseData = JSON.parse(jQuery(this).attr('data-fieldinfo'));
