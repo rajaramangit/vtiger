@@ -118,6 +118,19 @@ class Accounts extends CRMEntity {
 		$this->log =LoggerManager::getLogger('account');
 		$this->db = PearDatabase::getInstance();
 		$this->column_fields = getColumnFields('Accounts');
+
+		if(isset($_REQUEST['view']) && strtolower($_REQUEST['view']) == 'edit' )
+		{
+		//area and store		
+			$delivery_area_store_ary = getDeliveryAreaStore();
+			if( isset($delivery_area_store_ary) && !empty($delivery_area_store_ary) ){
+				echo '<script type="text/javascript">
+						var area_store 	= '. $delivery_area_store_ary. ';
+					</script';
+			}
+		//area and store	
+		}	
+
 	}
 
 	/** Function to handle module specific operations when saving a entity

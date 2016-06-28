@@ -9,6 +9,11 @@
 *
 ********************************************************************************/
 -->*}
+{if $MODULE_NAME eq 'SalesOrder'}
+<style>  
+#SalesOrder_detailView_basicAction_LBL_EDIT{ display:none; } 
+</style>
+{/if}
 {assign var=FINAL_DETAILS value=$RELATED_PRODUCTS.1.final_details}
 <table class="table table-bordered mergeTables">
     <thead>

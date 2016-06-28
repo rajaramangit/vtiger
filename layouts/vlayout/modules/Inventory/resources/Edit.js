@@ -1644,7 +1644,15 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
 			if (/cf_/i.test(key) && /@@@/i.test(result[key]) && /###/i.test(result[key])){
 				area_store_prev_val 	=	result[key];
 				var prev_val 			= 	result[key].split('@@@')[0];
-				var pre_store_sel_val	=	prev_val.split('###')[0];						
+				var pre_store_sel_val	=	prev_val.split('###')[0];
+				var get_area_name = result[key].split('@@@')[1].split('###')[0];
+				if($('#SalesOrder_editView_fieldName_bill_street').length && $('#SalesOrder_editView_fieldName_ship_street').length ){
+					var bill_str_pev_val = $('#SalesOrder_editView_fieldName_bill_street').val();
+					if (typeof get_area_name !== typeof undefined && get_area_name !== false) {
+						$('#SalesOrder_editView_fieldName_bill_street').val(bill_str_pev_val+'###'+get_area_name);
+						$('#SalesOrder_editView_fieldName_ship_street').val(bill_str_pev_val+'###'+get_area_name);
+					}
+				}
 				$('#'+store_con_id).val(prev_val);				
 				$('#'+area_con_id).val(pre_store_sel_val);
 				$("#"+area_con_id).trigger("liszt:updated");							
@@ -1665,7 +1673,8 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
 			$('#'+area_con_id).html(JSON.parse($('#hid_area_opt').val())).attr('disabled',true);
 		}		
 		$("#"+area_con_id).trigger("liszt:updated");							
-		$("#"+store_con_id).trigger("liszt:updated");											
+		$("#"+store_con_id).trigger("liszt:updated");
+
 		$("input[id^='SalesOrder_editView_fieldName_cf_'],input[id^='Accounts_editView_fieldName_cf_']").each(function(index) {
 			var attr = $(this).attr('data-fieldinfo');
 			if (typeof attr !== typeof undefined && attr !== false) {

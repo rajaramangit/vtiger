@@ -226,10 +226,23 @@ Vtiger_Edit_Js("Accounts_Edit_Js",{
 	 *
 	 */
 	registerBasicEvents : function(container) {
+		
+
 		this._super(container);
 		this.registerRecordPreSaveEvent(container);
 		this.registerEventForCopyingAddress(container);
 		this.registerReferenceSelectionEvent(container);
 			//container.trigger(Vtiger_Edit_Js.recordPreSave, {'value': 'edit'});
+		
+		//hiding area and store option on  quick create
+		$(".quickcreate select[id^='sel']").each(function(index) {
+			var so_responseData = JSON.parse(jQuery(this).attr('data-fieldinfo'));
+			var so_len = Object.keys(so_responseData).length;
+			if(so_len > 1 && so_responseData.label && (so_responseData.label.toLowerCase() == 'area' || so_responseData.label.toLowerCase() == 'store' )){				
+				$(this).parents('td').prev('td').hide();
+				$(this).parents('td').hide();
+			}
+		});
+
 	}
 });

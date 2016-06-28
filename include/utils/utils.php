@@ -1842,4 +1842,38 @@ function getCompanyDetails() {
 function lower_array(&$string){
 		$string = strtolower(trim($string));
 }
+
+function getDeliveryAreaStore(){
+	if(!isset($_SESSION['json_delivery_store_areas'])){
+		global $mage_api;
+		$api_key = $mage_api['usr_pwd'];
+		$api_usr = $mage_api['usr_name'];
+		$api_rul = $mage_api['url'];
+		try {			
+			$client = new SoapClient($api_rul, array("connection_timeout" => 5,'cache_wsdl' => WSDL_CACHE_NONE, 'exceptions' => true, 'trace' => 1));
+			$sessionId = $client->login($api_usr, $api_key);
+			// Getting main categories list  
+			$filter   = array('filter' => array('status' => 1));
+			$result   = $client->call($sessionId,'areamaps.list',$filter);	
+			$area_stores_ary[0] = array();
+			$area_stores = array();
+			if( is_array($result) && $delivery_area_cnt = count($result[0])){					
+				for($i=0;$i<$delivery_area_cnt;$i++){
+					if( !empty($result[$i]['store_id']) ){
+						$area_stores[$result[$i]['store_id']][$result[$i]['store_name']][$result[$i]['entity_id']] = $result[$i]['areadetails'];
+					}
+				}
+			}	
+			$json_delivery_store = json_encode($area_stores,true);
+			$_SESSION['json_delivery_store_areas'] = $json_delivery_store;
+
+		}catch(Exception $e) {
+			//$json_delivery_store = json_encode(array(),true);
+			//$json_delivery_areas = json_encode(array(),true);;		
+		}
+	}	
+	return $_SESSION['json_delivery_store_areas'];
+}
 ?>
+
+

@@ -19,7 +19,7 @@
 	<button class="close" aria-hidden="true" data-dismiss="modal" type="button" title="{vtranslate('LBL_CLOSE')}">x</button>
     <h3>{vtranslate('LBL_QUICK_CREATE', $MODULE)} {vtranslate($SINGLE_MODULE, $MODULE)}</h3>
 </div>
-<form class="form-horizontal recordEditView" name="QuickCreate" method="post" action="index.php">
+<form class="form-horizontal recordEditView quickcreate" name="QuickCreate" method="post" action="index.php">
 	{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
 		<input type="hidden" name="picklistDependency" value='{Vtiger_Util_Helper::toSafeHTML($PICKIST_DEPENDENCY_DATASOURCE)}' />
 	{/if}

@@ -605,8 +605,8 @@ jQuery.Class("Vtiger_Edit_Js",{
 		//this.triggerDisplayTypeEvent();
 
 //area and store mapping
-//getting area and store options
-		var area_store	= {"1": {"Thoraipakkam" : {"1":"Chemmencheri","2":"Kandanchavadi","3":"Karapakkam","4":"Navalur","5":"Neelangarai","6":"Okkiyam Thoraipakkam","7":"Palavakkam","8":"Pandian Salai","9":"Perumbakkam","10":"Perungudi","11":"PTC-Thoraipakkam","12":"Sholinganallur"}}};
+//getting area and store options	
+		//var area_store	= {"1": {"Thoraipakkam" : {"1":"Chemmencheri","2":"Kandanchavadi","3":"Karapakkam","4":"Navalur","5":"Neelangarai","6":"Okkiyam Thoraipakkam","7":"Palavakkam","8":"Pandian Salai","9":"Perumbakkam","10":"Perungudi","11":"PTC-Thoraipakkam","12":"Sholinganallur"}}};
 		var area_ary	= store_ary = new Array();
 		var area_lst	= '<option value="">Select an Option</option>';
 		jQuery.each(area_store, function(key,val) {
@@ -621,6 +621,7 @@ jQuery.Class("Vtiger_Edit_Js",{
 				store_ary.push(object1);
 			});
 		});
+
 //getting area and store options
 		var store_con_id = '';
 		var area_con_id = '';
@@ -646,7 +647,7 @@ jQuery.Class("Vtiger_Edit_Js",{
 				$("#"+area_con_id).trigger("liszt:updated");
 			}
 		});
-
+		
 		if(store_con_id && area_con_id){
 			$('#hid_area_store').val(area_con_id+'###'+store_con_id);			
 		}
@@ -662,30 +663,32 @@ jQuery.Class("Vtiger_Edit_Js",{
 				$('#'+area_con_id).attr('disabled','disabled');
 				$("#"+area_con_id).trigger("liszt:updated");
 					var selected_val = '';
-					if(jQuery(this).val()){
-						var bill_street = $('#SalesOrder_editView_fieldName_bill_street').val();
-						var bill_st_ary = bill_street.split('###');
-						var ori_bill_street = '';
-						if(bill_st_ary.length > 1){
-							ori_bill_street = bill_st_ary[0];
-						}else{
-							ori_bill_street = bill_street; 
+					if(jQuery(this).val()){						
+						if($('#SalesOrder_editView_fieldName_bill_street').length){
+							bill_street = $('#SalesOrder_editView_fieldName_bill_street').val();	
+							var bill_st_ary = bill_street.split('###');
+							var ori_bill_street = '';
+							if(bill_st_ary.length > 1){
+								ori_bill_street = bill_st_ary[0];
+							}else{
+								ori_bill_street = bill_street; 
+							}
+							ori_bill_street = ori_bill_street+'###'+$(this).find("option:selected").text();
+							$('#SalesOrder_editView_fieldName_bill_street').val(ori_bill_street);						
 						}
-						ori_bill_street = ori_bill_street+'###'+$(this).find("option:selected").text();
-						$('#SalesOrder_editView_fieldName_bill_street').val(ori_bill_street);
-
+						if($('#SalesOrder_editView_fieldName_ship_street').length){
+							var ship_street = $('#SalesOrder_editView_fieldName_ship_street').val();
+							var ship_st_ary = ship_street.split('###');
+							ori_ship_street = '';
+							if(ship_st_ary.length > 1){
+								ori_ship_street = ship_st_ary[0];
+							}else{
+								ori_ship_street = ship_street; 
+							}
+							ori_ship_street = ori_ship_street+'###'+$(this).find("option:selected").text();
+							$('#SalesOrder_editView_fieldName_ship_street').val(ori_ship_street);							
+						}							
 						
-
-						var ship_street = $('#SalesOrder_editView_fieldName_ship_street').val();
-						var ship_st_ary = ship_street.split('###');
-						ori_ship_street = '';
-						if(ship_st_ary.length > 1){
-							ori_ship_street = ship_st_ary[0];
-						}else{
-							ori_ship_street = ship_street; 
-						}
-						ori_ship_street = ori_ship_street+'###'+$(this).find("option:selected").text();
-						$('#SalesOrder_editView_fieldName_ship_street').val(ori_ship_street);
 						sel_bx_val = jQuery(this).val();	
 						selected_val = jQuery(this).val()+'@@@'+$(this).find("option:selected").text()+'###'+$('#'+area_con_id).find("option:selected").text();
 

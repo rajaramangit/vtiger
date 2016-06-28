@@ -201,4 +201,8 @@ $default_timezone = 'UTC';
 if(isset($default_timezone) && function_exists('date_default_timezone_set')) {
 	@date_default_timezone_set($default_timezone);
 }
+
+$mage_api['usr_name'] 	= 'admin';
+$mage_api['usr_pwd'] 	= 'Tendercuts123!';
+$mage_api['url']		= 'http://localhost/tenderweb/index.php/api/?wsdl';
 ?>
