@@ -649,16 +649,23 @@ jQuery.Class("Vtiger_Edit_Js",{
 		});
 		
 		if(store_con_id && area_con_id){
-			$('#hid_area_store').val(area_con_id+'###'+store_con_id);			
+			$('#hid_area_store_sel_ids').val(area_con_id+'###'+store_con_id);			
 		}
 		if(area_lst && store_ary){
 			$('#hid_area_opt').val(JSON.stringify(area_lst));
 			$('#hid_store_opt').val(JSON.stringify(store_ary));
 		}
-		if(store_con_id){			
+		if(store_con_id){						
 			$('#'+store_con_id).on('change', function(e) {
+				$('tr.lineItemRow').each(function(index){					
+					var is_prod_val_avail = $(this).children('td').find('input.productName').val();
+					if(is_prod_val_avail){	
+						location.reload();
+					}
+				});				
 				var sel_bx_val = '';
-				var area_for_store = jQuery(this).val().split('###')[0];
+				var area_for_store = jQuery(this).val().split('###')[0];				
+				
  				$('#'+area_con_id+' option[value='+area_for_store+']').attr('selected','selected');
 				$('#'+area_con_id).attr('disabled','disabled');
 				$("#"+area_con_id).trigger("liszt:updated");

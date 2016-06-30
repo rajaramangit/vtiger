@@ -624,7 +624,13 @@ jQuery.Class("Vtiger_Popup_Js",{
 		popupPageContentsContainer.on('keyup','.popup_qty',function(e){
 			this.value = this.value.replace(/[^0-9\.]/g,'');
 			if(this.value > 0){
-			    $(this).closest('td').find('input[type=checkbox]').prop('checked', true);			    
+				var avail_qty = parseInt($('#avail_qty_hid_'+jQuery(this).attr('id').split('popup_qty_')[1]).val());
+				if( this.value <= avail_qty ){
+					$(this).closest('td').find('input[type=checkbox]').prop('checked', true);			    	
+				}else{
+					this.value = '';
+					alert('Quantity must be less than or equal to available quantity');
+				}
 			}else{
 				$(this).closest('td').find('input[type=checkbox]').prop('checked', false);
 			}
@@ -953,15 +959,20 @@ jQuery.Class("Vtiger_Popup_Js",{
 		}
 	}
 });
-jQuery(document).ready(function() {
+
+jQuery(document).ready(function() {	
 	var sel_qty_val = '';
 	var sel_prod_id = '';	
 	var sel_prod_opt = '';	
 	var sel_prod_opt_val = '';	
+	var hid_area_store_sel_ids = '';
 	if(window.opener && !window.opener.closed){
 		sel_qty_val = window.opener.$("#sel_qty_val").val();
 		sel_prod_id = window.opener.$("#sel_prod_id").val();
 		sel_prod_opt = window.opener.$("#sel_prod_opt").val().split('###');
+		hid_area_store_sel_ids = window.opener.$("#hid_area_store_sel_ids").val().split('###');		
+		var store_id = window.opener.$('#'+hid_area_store_sel_ids[0]+' option:selected').val();
+		
 		if(sel_prod_opt.length > 1){		
 			sel_prod_opt_val = sel_prod_opt[1];			
 			var prod_desc_ary = sel_prod_opt[0].split('||');

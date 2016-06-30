@@ -645,7 +645,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
 	 * Function which is reposible to handle the line item popups
 	 * @params : popupImageElement - popup image element
 	 */
-	lineItemPopupEventHandler : function(popupImageElement) {
+	lineItemPopupEventHandler : function(popupImageElement) {		
 		var aDeferred = jQuery.Deferred();
 		var thisInstance = this;
 		var referenceModule = popupImageElement.data('moduleName');
@@ -667,6 +667,8 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
 		params.module = moduleName;
 		params.multi_select = true;
 		params.currency_id = jQuery('#currency_id option:selected').val();
+		var area_store_ids = $("#hid_area_store_sel_ids").val().split('###');		
+		params.store_id = $('#'+area_store_ids[0]+' option:selected').val();
 
 		this.showPopup(params).then(function(data){
 			var responseData = JSON.parse(data);
@@ -1224,6 +1226,18 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
 		var thisInstance = this;
 		var lineItemTable = this.getLineItemContentsContainer();
 		lineItemTable.on('click','img.lineItemPopup', function(e){
+		
+		//check is store selected
+		var area_store_sel_ids = $("#hid_area_store_sel_ids").val().split('###');
+		var is_area_val = $('#'+area_store_sel_ids[0]).val();
+		var is_store_val = $('#'+area_store_sel_ids[1]).val();
+		if(!is_store_val){
+			alert('You Must Select Area Before Choose Product');
+			return false;
+		}		
+		//check is store selected
+
+
 			var element = jQuery(e.currentTarget);
 			thisInstance.lineItemPopupEventHandler(element).then(function(data){
 				var parent = element.closest('tr');
@@ -1636,7 +1650,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
 		}
 //get custom field of area and store
 		var area_store_prev_val = '';
-		var hid_area_store = $('#hid_area_store').val();
+		var hid_area_store = $('#hid_area_store_sel_ids').val();
 		var area_con_id = hid_area_store.split('###')[0];
 		var store_con_id = hid_area_store.split('###')[1];
 		is_cf_avail = false;					
@@ -1691,24 +1705,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
 				}
 			}
 		});	
-		$('#'+store_con_id).on('change', function(e) {
-			// var selected_val = '';
-			// if(jQuery(this).val()){
-			// 	selected_val = jQuery(this).val()+'@@@'+$(this).find("option:selected").text()+'###'+$('#'+area_con_id).find("option:selected").text();	
-			// }
-			// $("input[id^='SalesOrder_editView_fieldName_cf_']").each(function(index) {
-			// 	var attr = $(this).attr('data-fieldinfo');
-			// 	if (typeof attr !== typeof undefined && attr !== false) {
-			// 		var so_responseData = JSON.parse(jQuery(this).attr('data-fieldinfo'));				
-			// 		var so_len = Object.keys(so_responseData).length;
-			// 		if(so_len > 1 && so_responseData.label){
-			// 			if(so_responseData.label.toLowerCase() == 'area store'){			
-			// 				$(this).val(selected_val);
-			// 			}
-			// 		}
-			// 	}
-			// });
-		});			
+		
 //get custom field of area and store
 	},
 
@@ -2050,7 +2047,6 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
 					fcls.prev().hide();											
 				}
 			}			
-
-		});
+		});		
     }
 });

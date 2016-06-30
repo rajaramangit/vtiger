@@ -49,6 +49,7 @@ class Inventory_ProductsPopup_View extends Vtiger_Popup_View {
 		$searchKey = $request->get('search_key');
         $searchValue = $request->get('search_value');
 		$currencyId = $request->get('currency_id');
+		$storeId = $request->get('store_id');
 //		if($sourceModule=="SalesOrder"){
 //                 $searchKey ="productcategory";
 //                $searchValue = "All";
@@ -177,6 +178,8 @@ class Inventory_ProductsPopup_View extends Vtiger_Popup_View {
 
 		$viewer->assign('MULTI_SELECT', $multiSelectMode);
 		$viewer->assign('CURRENT_USER_MODEL', Users_Record_Model::getCurrentUserModel());
+
+		$viewer->assign('PRODUCTS_QTY_OF_STORE', getQtyByStoreId($storeId));
 
 		$viewer->assign('MODULE', $request->getModule());
 		$viewer->assign('GETURL', 'getTaxesURL');

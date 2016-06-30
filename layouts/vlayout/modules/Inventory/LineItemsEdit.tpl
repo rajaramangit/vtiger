@@ -28,7 +28,7 @@
 	<input type="hidden" id="sel_qty_val"/>
     <input type="hidden" id="sel_prod_id"/>
 	<input type="hidden" id="sel_prod_opt"/>
-    <input type="hidden" id="hid_area_store"/>
+    <input type="hidden" id="hid_area_store_sel_ids"/>
     <input type="hidden" id="hid_area_opt"/>
     <input type="hidden" id="hid_store_opt"/>
 
