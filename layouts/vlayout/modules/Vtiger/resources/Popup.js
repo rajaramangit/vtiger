@@ -202,6 +202,10 @@ jQuery.Class("Vtiger_Popup_Js",{
 		if(typeof window == 'undefined'){
 			window = self;
 		}
+		var hid_area_store_sel_ids = window.opener.$("#hid_area_store_sel_ids").val().split('###');				
+		window.opener.$('#'+hid_area_store_sel_ids[1]).removeAttr('disabled');
+		window.opener.$("#"+hid_area_store_sel_ids[1]).trigger("liszt:updated");				
+
 		window.close();
 
 		var len = Object.keys(result).length;		

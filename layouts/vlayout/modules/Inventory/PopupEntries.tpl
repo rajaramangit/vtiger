@@ -191,6 +191,10 @@ jQuery.each(prod_spec, function (key, data) {
 <script type="text/javascript">
 	var products_qty_of_store = {$PRODUCTS_QTY_OF_STORE};	
 	jQuery(document).ready(function(){
+		var hid_area_store_sel_ids = window.opener.$("#hid_area_store_sel_ids").val().split('###');				
+		window.opener.$('#'+hid_area_store_sel_ids[1]).attr('disabled','disabled');
+		window.opener.$("#"+hid_area_store_sel_ids[1]).trigger("liszt:updated");		
+
 		var prod_id_array = {};	
 		jQuery('tr').each(function(index){		
 			var ary_key = parseInt(jQuery(this).data('id'));			
