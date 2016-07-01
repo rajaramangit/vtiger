@@ -153,6 +153,11 @@ jQuery.Class("Vtiger_Popup_Js",{
 		var urlString = (typeof urlOrParams == 'string')? urlOrParams : jQuery.param(urlOrParams);
 		var url = 'index.php?'+urlString;
 		var popupWinRef =  window.open(url, windowName ,'width=800,height=650,resizable=0,scrollbars=1').focus();
+		
+		var hid_area_store_sel_ids = window.opener.$("#hid_area_store_sel_ids").val().split('###');		
+		window.opener.$('#'+hid_area_store_sel_ids[1]).attr('disabled','disabled');
+		window.opener.$("#"+hid_area_store_sel_ids[1]).trigger("liszt:updated");
+
 		if (typeof this.destroy == 'function') {
 			// To remove form elements that have created earlier
 			this.destroy();
@@ -202,6 +207,10 @@ jQuery.Class("Vtiger_Popup_Js",{
 			window = self;
 		}
 		window.close();
+
+		var hid_area_store_sel_ids = window.opener.$("#hid_area_store_sel_ids").val().split('###');		
+		window.opener.$('#'+hid_area_store_sel_ids[1]).removeAttr('disabled');
+		window.opener.$("#"+hid_area_store_sel_ids[1]).trigger("liszt:updated");
 
 		var len = Object.keys(result).length;		
 		var pop_qty = '1';

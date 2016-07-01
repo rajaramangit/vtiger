@@ -657,6 +657,8 @@ jQuery.Class("Vtiger_Edit_Js",{
 		}
 		if(store_con_id){						
 			$('#'+store_con_id).on('change', function(e) {
+
+
 				$('tr.lineItemRow').each(function(index){					
 					var is_prod_val_avail = $(this).children('td').find('input.productName').val();
 					if(is_prod_val_avail){	
