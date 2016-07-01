@@ -612,10 +612,10 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
 			jQuery('textarea.lineItemCommentBox',parentRow).val(description);
 			jQuery('.qty',parentRow).val(popup_qty);			
 			if(popup_cmnt){
-				jQuery('.lineItemCommentBox',parentRow).val(popup_cmnt.split('###')[0]).attr('disabled','disabled');
-				jQuery('.lineItemCommentBox',parentRow).val(popup_cmnt.split('###')[0]).show();
+				jQuery('.lineItemCommentBox',parentRow).val(popup_cmnt.split('###')[0]);
+				//jQuery('.lineItemCommentBox',parentRow).val(popup_cmnt.split('###')[0]).show();
 			}else{
-				jQuery('.lineItemCommentBox',parentRow).hide()
+				//jQuery('.lineItemCommentBox',parentRow).hide()
 			}	
 			var taxUI = this.getTaxDiv(taxes,parentRow);
 			jQuery('.taxDivContainer',parentRow).html(taxUI);

@@ -78,7 +78,7 @@
 				{/if}
 			</div>
 		{else}
-			<div><br><div><textarea style="display: none;" id="{$comment}" name="{$comment}" class="lineItemCommentBox">{$data.$comment}</textarea></div>
+			<div><br><div><textarea readonly="" id="{$comment}" name="{$comment}" class="lineItemCommentBox">{$data.$comment}</textarea></div>
 		{/if}
 	</td>
 	<td>
