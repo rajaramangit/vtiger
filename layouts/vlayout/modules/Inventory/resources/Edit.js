@@ -1654,8 +1654,9 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
 		var area_con_id = hid_area_store.split('###')[0];
 		var store_con_id = hid_area_store.split('###')[1];
 		is_cf_avail = false;					
-		jQuery.each(result, function(key,val) {					
-			if (/cf_/i.test(key) && /@@@/i.test(result[key]) && /###/i.test(result[key])){
+
+		jQuery.each(result, function(key,val) {								
+			if (/cf_/i.test(key) && /@@@/i.test(result[key]) && /###/i.test(result[key])){				
 				area_store_prev_val 	=	result[key];
 				var prev_val 			= 	result[key].split('@@@')[0];
 				var pre_store_sel_val	=	prev_val.split('###')[0];
@@ -1688,13 +1689,18 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
 		}		
 		$("#"+area_con_id).trigger("liszt:updated");							
 		$("#"+store_con_id).trigger("liszt:updated");
-
+		
 		$("input[id^='SalesOrder_editView_fieldName_cf_'],input[id^='Accounts_editView_fieldName_cf_']").each(function(index) {
 			var attr = $(this).attr('data-fieldinfo');
 			if (typeof attr !== typeof undefined && attr !== false) {
 				var so_responseData = JSON.parse(attr);	
 				var so_len 			= Object.keys(so_responseData).length;
-				if(so_len > 1 && so_responseData.label){
+				if(so_len > 1 && so_responseData.label){					
+					if(so_responseData.label.toLowerCase() == 'mobile phone'){
+						if(typeof result.phone !== typeof undefined && result.phone !== false){									
+							$(this).val(result.phone).attr('readonly','true');
+						}
+					}
 					if(so_responseData.label.toLowerCase() == 'area store'){
 						if(!is_cf_avail){
 							$(this).val('');
