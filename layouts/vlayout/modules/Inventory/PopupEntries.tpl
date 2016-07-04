@@ -61,6 +61,10 @@
 	.sold-out{
 		color: red;
 		font-size: 25px;
+		position: absolute;
+		z-index: 1000;
+		width: 100%;
+		text-align: center;
 	}	
 </style>
 

@@ -609,7 +609,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
 			lineItemNameElment.val(selectedName);
 			lineItemNameElment.attr('disabled', 'disabled');
 			jQuery('input.listPrice',parentRow).val(unitPrice);
-			jQuery('textarea.lineItemCommentBox',parentRow).val(description);
+			//jQuery('textarea.lineItemCommentBox',parentRow).val(description);
 			jQuery('.qty',parentRow).val(popup_qty);			
 			if(popup_cmnt){
 				jQuery('.lineItemCommentBox',parentRow).val(popup_cmnt.split('###')[0]);
