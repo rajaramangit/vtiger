@@ -113,11 +113,11 @@
 								</td><td nowrap class="{$WIDTHTYPE}">
                                 <div class="pull-right actions">
                                     <span class="actionImages">
-                                        <a href="{$RELATED_RECORD->getFullDetailViewUrl()}"><i title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="icon-th-list alignMiddle"></i></a>&nbsp;
-                                        {if $IS_EDITABLE}
+                                        <a href="{$RELATED_RECORD->getFullDetailViewUrl()}"><i title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="icon-th-list alignMiddle"></i></a>&nbsp;                                        
+                                        {if $IS_EDITABLE && $RELATED_MODULE->get('name') neq 'SalesOrder'}
                                             <a href='{$RELATED_RECORD->getEditViewUrl()}'><i title="{vtranslate('LBL_EDIT', $MODULE)}" class="icon-pencil alignMiddle"></i></a>
                                         {/if}
-                                        {if $IS_DELETABLE}
+                                        {if $IS_DELETABLE && $RELATED_MODULE->get('name') neq 'SalesOrder'}
                                             <a class="relationDelete"><i title="{vtranslate('LBL_DELETE', $MODULE)}" class="icon-trash alignMiddle"></i></a>
                                         {/if}
                                     </span>

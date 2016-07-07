@@ -729,10 +729,19 @@ jQuery.Class("Vtiger_Edit_Js",{
 				var so_responseData = JSON.parse(attr);	
 				var so_len = Object.keys(so_responseData).length;
 				if(so_len > 1 && so_responseData.label){
+					if(so_responseData.label.toLowerCase() == 'mobile phone'){
+						if($('#mobile_phone').length){						
+							$(this).val($('#mobile_phone').val()).attr('readonly','true');
+						}
+					}					
 					if(so_responseData.label.toLowerCase() == 'area store'){
 						$(this).parents('td').prev('td').hide();
 						$(this).parents('td').hide();
-						var prev_val = $(this).val().split('@@@')[0];
+						var prev_val = $(this).val().split('@@@')[0];						
+						if(jQuery('#area_store_prev_val').length && jQuery('#area_store_prev_val').val()){
+							//this value coming from inventory/view/edit.php
+							prev_val = jQuery('#area_store_prev_val').val();
+						}
 						if(prev_val && typeof prev_val != 'undefined'){
 							$('#'+store_con_id).val(prev_val);
 							$("#"+store_con_id).trigger("liszt:updated");

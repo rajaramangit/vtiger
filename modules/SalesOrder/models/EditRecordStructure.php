@@ -19,5 +19,5 @@ $delivery_area_store_ary = getDeliveryAreaStore();
 if( isset($delivery_area_store_ary) && !empty($delivery_area_store_ary) ){
 	echo '<script type="text/javascript">
 			var area_store 	= '. $delivery_area_store_ary. ';
-		</script';
+		</script>';
 }

@@ -25,6 +25,10 @@
 			<input type="hidden" name="sourceRecord" value="{$SOURCE_RECORD}" />
 			<input type="hidden" name="relationOperation" value="{$IS_RELATION_OPERATION}" />
 		{/if}
+		{if $SOURCE_MODULE eq 'Accounts'}
+			<input type="hidden" id="area_store_prev_val" value="{$DELIVERY_AREA_STORE}" />
+			<input type="hidden" id="mobile_phone" value="{$CUSTOMER_PHONE}" />
+		{/if}
 		<div class="contentHeader row-fluid">
 		{assign var=SINGLE_MODULE_NAME value='SINGLE_'|cat:$MODULE}
 		{if $RECORD_ID neq ''}

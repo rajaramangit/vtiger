@@ -72,6 +72,21 @@ Class Inventory_Edit_View extends Vtiger_Edit_View {
 						|| $sourceModule === 'Potentials'
 						|| ($sourceModule === 'Vendors' && $moduleName === 'PurchaseOrder'))) {
 				$parentRecordModel = Vtiger_Record_Model::getInstanceById($sourceRecord, $sourceModule);
+
+				if($sourceModule == 'Accounts'){
+					if(isset($parentRecordModel->entity->column_fields)){
+						foreach ($parentRecordModel->entity->column_fields as $key => $value) {
+							if($key === 'phone'){
+								$viewer->assign('CUSTOMER_PHONE', $value);
+							}
+							if(substr( $key, 0, 3 ) === "cf_" && strpos($value, '@@@') !== false && strpos($value, '###') !== false ){
+								$area_store_val = explode('@@@',$value);
+								$viewer->assign('DELIVERY_AREA_STORE', $area_store_val[0]);
+							}
+						}
+					}					
+				}
+				
 				$recordModel->setParentRecordData($parentRecordModel);
 			}
 		}
