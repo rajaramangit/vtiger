@@ -1708,6 +1708,12 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
 							$(this).val(area_store_prev_val);
 						}
 					}
+					if(so_responseData.label.toLowerCase() == 'store name' || so_responseData.label.toLowerCase() == 'store view'
+						|| so_responseData.label.toLowerCase() == 'store web'){
+							if(area_store_prev_val){
+								$(this).val(area_store_prev_val.split('@@@')[1].split('###')[1].toLowerCase());
+							}	
+					}					
 				}
 			}
 		});	

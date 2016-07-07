@@ -81,6 +81,8 @@ Class Inventory_Edit_View extends Vtiger_Edit_View {
 							}
 							if(substr( $key, 0, 3 ) === "cf_" && strpos($value, '@@@') !== false && strpos($value, '###') !== false ){
 								$area_store_val = explode('@@@',$value);
+								$split_store_name = explode('###',$area_store_val[1]);
+								$viewer->assign('DELIVERY_STORE_NAME', strtolower( $split_store_name[1] ) );
 								$viewer->assign('DELIVERY_AREA_STORE', $area_store_val[0]);
 							}
 						}

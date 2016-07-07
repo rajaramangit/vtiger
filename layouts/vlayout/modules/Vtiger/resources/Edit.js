@@ -716,6 +716,10 @@ jQuery.Class("Vtiger_Edit_Js",{
 									$(this).parents('td').prev('td').hide();
 									$(this).parents('td').hide();
 								}
+								if(so_responseData.label.toLowerCase() == 'store name' || so_responseData.label.toLowerCase() == 'store view'
+									|| so_responseData.label.toLowerCase() == 'store web'){
+										$(this).val($('#'+area_con_id).find("option:selected").text().toLowerCase());
+								}
 							}
 						}
 					});	
@@ -730,10 +734,17 @@ jQuery.Class("Vtiger_Edit_Js",{
 				var so_len = Object.keys(so_responseData).length;
 				if(so_len > 1 && so_responseData.label){
 					if(so_responseData.label.toLowerCase() == 'mobile phone'){
+						//this value coming from inventory/view/edit.php
 						if($('#mobile_phone').length){						
 							$(this).val($('#mobile_phone').val()).attr('readonly','true');
 						}
-					}					
+					}
+					if(so_responseData.label.toLowerCase() == 'store name' || so_responseData.label.toLowerCase() == 'store view'
+						|| so_responseData.label.toLowerCase() == 'store web'){
+						$(this).val($('#mage_store_name').val());
+						$(this).parents('td').prev('td').hide();
+						$(this).parents('td').hide();						
+					}										
 					if(so_responseData.label.toLowerCase() == 'area store'){
 						$(this).parents('td').prev('td').hide();
 						$(this).parents('td').hide();
