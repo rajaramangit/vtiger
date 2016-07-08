@@ -342,7 +342,7 @@ jQuery.Class("Vtiger_Popup_Js",{
 									is_valid_opt = false;
 								}
 								var isvalid_qty = jQuery.isNumeric(jQuery('#popup_qty_'+ch_pid).val());															
-								if(!isvalid_qty){
+								if(!isvalid_qty && isvalid_qty > 0){
 									jQuery('#popup_qty_'+ch_pid).addClass('qty-empty-highlight');
 									is_valid_qty = false;
 								}

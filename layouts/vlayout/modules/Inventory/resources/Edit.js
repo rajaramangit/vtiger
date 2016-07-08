@@ -616,7 +616,8 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
 				//jQuery('.lineItemCommentBox',parentRow).val(popup_cmnt.split('###')[0]).show();
 			}else{
 				//jQuery('.lineItemCommentBox',parentRow).hide()
-			}	
+			}
+			jQuery('.lineItemCommentBox',parentRow).hide();
 			var taxUI = this.getTaxDiv(taxes,parentRow);
 			jQuery('.taxDivContainer',parentRow).html(taxUI);
             if(this.isIndividualTaxMode()) {
