@@ -351,6 +351,11 @@ function getAssociatedProducts($module,$focus,$seid='')
 	$subTotal = ($focus->column_fields['hdnSubTotal'] != '')?$focus->column_fields['hdnSubTotal']:'0.00';
 	$subTotal = number_format($subTotal, $no_of_decimal_places,'.','');
 
+	//07-07-2016 - Prasanna.R - Vtiger sync total issue
+    $shippingCharge = ($focus->column_fields['hdnS_H_Amount'] != '') ? $focus->column_fields['hdnS_H_Amount']:'0.00';
+    $shippingTotal = number_format($shippingCharge,$no_of_decimal_places,'.','');
+    $subTotal = $subTotal - $shippingTotal;
+
 	$product_Detail[1]['final_details']['hdnSubTotal'] = $subTotal;
 	$discountPercent = ($focus->column_fields['hdnDiscountPercent'] != '')?$focus->column_fields['hdnDiscountPercent']:'0.00';
 	$discountAmount = ($focus->column_fields['hdnDiscountAmount'] != '')?$focus->column_fields['hdnDiscountAmount']:'0.00';
