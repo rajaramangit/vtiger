@@ -451,7 +451,10 @@ jQuery.Class("Vtiger_Popup_Js",{
 		params['related_parent_module'] = this.getRelatedParentModule();
 		params['related_parent_id'] = this.getRelatedParentRecord();
 		params['module'] = app.getModuleName();
-
+		if(jQuery('#triggerEventName').val().length){
+			var cus_tri_name = jQuery('#triggerEventName').val();
+			params['custom_triggerEventName'] = cus_tri_name;	
+		}
 		if(this.isMultiSelectMode()) {
 			params['multi_select'] = true;
 		}
@@ -560,6 +563,7 @@ jQuery.Class("Vtiger_Popup_Js",{
 		var aDeferred = jQuery.Deferred();
 		var completeParams = this.getCompleteParams();
 		var cus_srch = jQuery('#custom_search_val').val();
+
 		if(cus_srch != ''){
 			var anyBoxesChecked = false;
 		    jQuery('input[type="checkbox"]').each(function() {
@@ -572,7 +576,7 @@ jQuery.Class("Vtiger_Popup_Js",{
 				return false
 		    }		
 			completeParams['search_key'] =  'productcategory';
-			completeParams['search_value'] =  cus_srch;			
+			completeParams['search_value'] =  cus_srch;
 		}
 		completeParams['page'] = 1;
 		return this.getPageRecords(completeParams).then(

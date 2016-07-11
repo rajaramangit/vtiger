@@ -179,7 +179,16 @@ class Inventory_ProductsPopup_View extends Vtiger_Popup_View {
 		$viewer->assign('MULTI_SELECT', $multiSelectMode);
 		$viewer->assign('CURRENT_USER_MODEL', Users_Record_Model::getCurrentUserModel());
 
-		$viewer->assign('PRODUCTS_QTY_OF_STORE', getQtyByStoreId($storeId));
+		$trigger_event_name = $_REQUEST['triggerEventName'];
+		$c_trigger_event_name = ($_REQUEST['custom_triggerEventName']) ? $_REQUEST['custom_triggerEventName'] : '';
+		
+		$viewer->assign('TRIGGER_EVENT_NAME', $trigger_event_name);
+		if( !isset($_SESSION['trigger_event_name']) || $_SESSION['trigger_event_name'] != $c_trigger_event_name){
+			$_SESSION['trigger_event_name'] = $trigger_event_name;
+			$_SESSION['product_inventory_avail_data'] = getQtyByStoreId($storeId);
+		}
+		
+		$viewer->assign('PRODUCTS_QTY_OF_STORE', $_SESSION['product_inventory_avail_data']);
 
 		$viewer->assign('MODULE', $request->getModule());
 		$viewer->assign('GETURL', 'getTaxesURL');

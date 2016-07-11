@@ -22,6 +22,7 @@
     <input type="hidden" id="relatedParentId" value="{$RELATED_PARENT_ID}"/>
     <input type="hidden" id="view" value="{$VIEW}"/>
     <input type="hidden" id="custom_search_val" value=""/>
+    <input type="hidden" id="triggerEventName" value="{$TRIGGER_EVENT_NAME}"/>
     <div class="popupContainer row-fluid">
         <div class="span12">
             <div class="row-fluid">
