@@ -65,7 +65,22 @@
 		z-index: 1000;
 		width: 100%;
 		text-align: center;
-	}	
+	}
+	.lbl-con{
+		float: left;width: 35%;text-align: left;
+	}
+	.val_con{
+		float: left;width: 65%;text-align: left;
+	}
+	.full-width{
+		width: 100%;
+	}
+	.avail_qty{
+		padding-bottom: 25px;
+	}
+	.pad-btm-15{
+		padding-bottom: 15px;
+	}
 </style>
 
 <div id="popupEntriesDiv">	
@@ -81,7 +96,7 @@
 				<td class="listViewEntryValue {$WIDTHTYPE}" style="vertical-align: top;">
 				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 				{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
-				<div style="width: 100%;text-align: center;">
+				<div class="full-width" style="text-align: center;">
 					{if $temp_val == 1}					
 						<div id="imageContainer" class="img-cont">
 							<div id="sold_out_{$LISTVIEW_ENTRY->getId()}" class="sold-out" style="display: none;">Sold Out</div>
@@ -94,53 +109,61 @@
 					{/if}
 					{if $LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->get('uitype') eq '2'}
 						
-						<div style="width:100%">
+						<div class="full-width">
 							<div style="float:left;width:90%;font-size: 14px;padding-bottom:10px;text-align: left;"><a><b>{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}</b></a></div>
 							<div style="float:left;widht:10%">							
 							{if $MULTI_SELECT}				
-								<input class="entryCheckBox" id="chk-bx-id-{$LISTVIEW_ENTRY->getId()}" type="checkbox" data-chk_pid="{$LISTVIEW_ENTRY->getId()}" />				
+								<input class="entryCheckBox" id="chk-bx-id-{$LISTVIEW_ENTRY->getId()}" type="checkbox" data-chk_pid="{$LISTVIEW_ENTRY->getId()}" />
 							{/if}							
 							</div>
 						</div>
-
-						{if $temp_val == 1}
-							<div style="width: 100%;display: none;" id="opt_con_{$LISTVIEW_ENTRY->getId()}">
-								<div style="float: left;width: 35%;text-align: left;">Options : </div>
-								<div style="float: left;width: 65%;text-align: left;" id="opt_val_con_{$LISTVIEW_ENTRY->getId()}"></div>
-							</div>
-							<div style="width: 100%">
-								<div style="float: left;width: 35%;text-align: left;">Available Quantity:</div>
-								<div style="float: left;width: 65%;text-align: left;padding-bottom: 30px; ">
-									<span id="avail_qty_{$LISTVIEW_ENTRY->getId()}"></span> Kg
-								</div>
-							</div>
-							<input type="hidden" id="avail_qty_hid_{$LISTVIEW_ENTRY->getId()}" value="0"></input>							
-							<div style="width: 100%">
-								<div style="float: left;width: 35%;text-align: left;clear:left;">Quantity:</div>
-								<div style="float: left;width: 65%;text-align: left;">
-									<input type="text" class="span2 popup_qty" id="popup_qty_{$LISTVIEW_ENTRY->getId()}" value="" style="width: 70%;"></input>&nbsp;&nbsp;Kg
-								</div>
-							</div>
-							<div style="width: 100%">
-								<div style="float: left;width: 35%;text-align: left;">Description:</div>
-								<div style="float: left;width: 65%;text-align: left;">
-									<textarea id="popup_prod_desc_{$LISTVIEW_ENTRY->getId()}" style="width: 70%;"></textarea>									
-								</div>
-							</div>									
-						{/if}					
+					
 					{else if $LISTVIEW_HEADER->get('uitype') eq '72'}
 						{assign var=CURRENCY_SYMBOL_PLACEMENT value={$CURRENT_USER_MODEL->get('currency_symbol_placement')}}
 						{if $CURRENCY_SYMBOL_PLACEMENT eq '1.0$'}
 							{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}{$LISTVIEW_ENTRY->get('currencySymbol')}
 						{else}
-							<div style="width: 100%">
-								<div style="float: left;width: 35%;text-align: left;">Price:</div>
-								<div style="float: left;width: 65%;text-align: left;"><b>{$LISTVIEW_ENTRY->get('currencySymbol')}{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}</b></div>
+							<div class="full-width">
+								<div class="lbl-con">Price:</div>
+								<div class="val_con pad-btm-15"><b><span id="prod_volume_{$LISTVIEW_ENTRY->getId()}"></span>{*$LISTVIEW_ENTRY->get('currencySymbol')*}{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}</b></div>
 							</div>							
 						{/if}
 					{else}
 						{*$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)*}
 					{/if}
+					{if $temp_val == 3}
+						
+						<div class="full-width">
+							<div class="lbl-con" >Available Quantity:</div>
+							<div class="val_con avail_qty">
+								<span id="avail_qty_{$LISTVIEW_ENTRY->getId()}"></span> Kg
+							</div>
+						</div>
+						
+						<input type="hidden" id="avail_qty_hid_{$LISTVIEW_ENTRY->getId()}" value="0"></input>
+						
+						<div class="full-width" style="display: none;" id="opt_con_{$LISTVIEW_ENTRY->getId()}">
+							<div class="lbl-con">Options : </div>
+							<div class="val_con pad-btm-15" id="opt_val_con_{$LISTVIEW_ENTRY->getId()}"></div>
+						</div>						
+						
+						<div class="full-width" id="prod_incr_decr_cont_{$LISTVIEW_ENTRY->getId()}">
+							<div class="lbl-con">Quantity:</div>
+							<div class="val_con">																	
+								<input type="hidden" id="min_qty_{$LISTVIEW_ENTRY->getId()}" value="0"></input>
+								<i title="Decriment" class="icon-trash prod-decri" style="display: inline-block; background-position: -433px -97px;" id="prod_decri_{$LISTVIEW_ENTRY->getId()}"></i>
+								<input type="text" class="span2 popup_qty" id="popup_qty_{$LISTVIEW_ENTRY->getId()}" value="0" style="width: 20%;" readonly="true"></input>
+								<i title="Increment" class="icon-trash prod-incri" style="display: inline-block; background-position: -407px -97px;" id="prod_incri_{$LISTVIEW_ENTRY->getId()}"></i>
+							</div>
+						</div>
+						<!-- <div style="width: 100%">
+							<div style="float: left;width: 35%;text-align: left;">Description:</div>
+							<div style="float: left;width: 65%;text-align: left;">
+								<textarea id="popup_prod_desc_{$LISTVIEW_ENTRY->getId()}" style="width: 70%;"></textarea>									
+							</div>
+						</div>									 -->
+					{/if}
+
 				</div>
 				{$temp_val = $temp_val+1}				
 				{/foreach}
@@ -178,7 +201,8 @@
 {literal}
 <script type="text/javascript" src="js/product_json.js"></script>
 <script type="text/javascript">
-jQuery.each(prod_spec, function (key, data) {	
+// var prod_spec = {"40855":{"label":{"3":"Small","4":"Big"}},"40657":{"label":{"5":"Half Slice","6":"Full Slice"}},"40666":{"label":{"7":"Small ","8":"Medium","9":"Large"}},"40732":{"label":{"10":"Small cut","11":"Medium cut","12":"Large cut"}},"40733":{"label":{"13":"Small cut","14":"Medium cut","15":"Large cut"}},"40734":{"label":{"16":"Small piece","17":"Medium piece"}},"40735":{"label":{"20":"Shoulder whole","18":"Shoulder small piece","19":"Shoulder large piece"}}} ;
+jQuery.each(prod_spec, function (key, data) {
 	options = '<select id="sel_opt_'+key+'" style="width:70%;">';
 	options += '<option value="">Choose Option</option>';
 	jQuery.each(data, function (index, data1) {
@@ -189,12 +213,69 @@ jQuery.each(prod_spec, function (key, data) {
 	options += '</select>';
 	jQuery('#opt_val_con_'+key).html(options);		
 	jQuery('#opt_con_'+key).show();
-}); 
+});
+
+// var product_min_qty ={"43":{"min_qty":"0.5","prodcut_spec":"1Kg"},"79":{"min_qty":"0.25","prodcut_spec":"1Kg"},"85":{"min_qty":"0.25","prodcut_spec":"1Kg"},"97":{"min_qty":"0.5","prodcut_spec":"1Kg"},"38639":{"min_qty":"0.5","prodcut_spec":"1Kg"},"38652":{"min_qty":"1","prodcut_spec":"1Unit"},"39798":{"min_qty":"0.5","prodcut_spec":"1kg"},"40857":{"min_qty":"1","prodcut_spec":"Pack of 2"},"39832":{"min_qty":"0.5","prodcut_spec":"500gm"},"40657":{"min_qty":"0.5","prodcut_spec":"1Kg"},"40666":{"min_qty":"1","prodcut_spec":"1Kg"},"40732":{"min_qty":"0.5","prodcut_spec":"1Kg"},"40733":{"min_qty":"0.5","prodcut_spec":"1Kg"},"40734":{"min_qty":"0.5","prodcut_spec":"1Kg"},"40735":{"min_qty":"0.5","prodcut_spec":"1Kg"}} ; 
+
+jQuery.each(product_min_qty, function (key, data) {
+	jQuery('#min_qty_'+key).val(data.min_qty);
+	jQuery('#popup_qty_'+key).val(data.min_qty);
+	if(data.prodcut_spec){
+		var volume = data.prodcut_spec.toLowerCase();
+		var volume_txt  = '';
+		if(volume.indexOf('kg')){			
+			volume_txt = data.min_qty+'&nbsp;Kg&nbsp;&nbsp;&nbsp;';
+		}
+		else if(volume.indexOf('unit')){
+			volume_txt = data.prodcut_spec+'&nbsp;&nbsp;&nbsp;';
+		}
+		else if(volume.indexOf('pack')){
+			volume_txt = data.prodcut_spec+'&nbsp;&nbsp;&nbsp;';
+		}
+		jQuery('#prod_volume_'+key).html(volume_txt);
+	}	
+});
+
+
 </script>
 {/literal}
 <script type="text/javascript">
 	var products_qty_of_store = {$PRODUCTS_QTY_OF_STORE};	
 	jQuery(document).ready(function(){
+		
+		jQuery('.prod-incri').on('click',function(){
+			var prod_id = jQuery(this).attr('id').split('prod_incri_')[1];
+			var this_prod_qty_id = jQuery('#popup_qty_'+prod_id);
+			var prod_min_qty = jQuery('#min_qty_'+prod_id).val();
+			var prod_qty = ( parseFloat(this_prod_qty_id.val()) ) + ( parseFloat(prod_min_qty) );
+			
+			if(prod_qty <= jQuery('#avail_qty_hid_'+prod_id).val() ){				
+				this_prod_qty_id.val(prod_qty);
+				if(prod_qty > 0){
+					jQuery('#chk-bx-id-'+prod_id).attr('checked','checked');
+				}
+			}else{
+				$('#avail_qty_'+prod_id).css({
+										   'color' : 'red'
+										});
+			}
+		});
+
+		jQuery('.prod-decri').on('click',function(){
+			var prod_id 		= jQuery(this).attr('id').split('prod_decri_')[1];
+			var this_prod_qty_id 	= jQuery('#popup_qty_'+prod_id);
+			var prod_min_qty 		= jQuery('#min_qty_'+prod_id).val();
+			var prev_prod_qty 		= parseFloat(this_prod_qty_id.val());
+
+			var prod_qty = ( prev_prod_qty ) - ( parseFloat(prod_min_qty) );
+			if(prod_qty >= parseFloat(jQuery('#min_qty_'+prod_id).val()) ){				
+				this_prod_qty_id.val(prod_qty);
+				if(prod_qty > 0){
+					jQuery('#chk-bx-id-'+prod_id).attr('checked','checked');	
+				}
+			}
+		});
+
 		var hid_area_store_sel_ids = window.opener.$("#hid_area_store_sel_ids").val().split('###');				
 		window.opener.$('#'+hid_area_store_sel_ids[1]).attr('disabled','disabled');
 		window.opener.$("#"+hid_area_store_sel_ids[1]).trigger("liszt:updated");		
@@ -213,6 +294,7 @@ jQuery.each(prod_spec, function (key, data) {
 					$('#popup_prod_desc_'+prod_id_array[val.product_id]).attr('disabled','disabled');
 					$('#popup_qty_'+prod_id_array[val.product_id]).attr('disabled','disabled');
 					$('#chk-bx-id-'+prod_id_array[val.product_id]).attr('disabled','disabled');
+					$('#prod_incr_decr_cont_'+prod_id_array[val.product_id]).hide();
 					$('#sold_out_'+prod_id_array[val.product_id]).show();
 				}		
 				$('#avail_qty_hid_'+prod_id_array[val.product_id]).val(val.qty);

@@ -1876,6 +1876,7 @@ function getDeliveryAreaStore(){
 }
 
 function getQtyByStoreId($storeid){
+
 	global $mage_api;
 	$api_key = $mage_api['usr_pwd'];
 	$api_usr = $mage_api['usr_name'];
@@ -1894,6 +1895,7 @@ function getQtyByStoreId($storeid){
     }catch(Exception $e) {
 		//
 	}
+
 }
 ?>
 
