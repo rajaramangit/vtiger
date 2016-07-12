@@ -97,16 +97,18 @@
 					<span class="actionImages">
 						<a href="{$LISTVIEW_ENTRY->getFullDetailViewUrl()}"><i title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="icon-th-list alignMiddle"></i></a>&nbsp;
 						{if $IS_MODULE_EDITABLE}						
-							{if $MODULE neq 'SalesOrder' }
+							{if $MODULE neq 'SalesOrder'}
 								{if $MODULE neq 'CallHistory' }
 								<a href='{$LISTVIEW_ENTRY->getEditViewUrl()}'><i title="{vtranslate('LBL_EDIT', $MODULE)}" class="icon-pencil alignMiddle"></i></a>&nbsp;
 								{/if}
 							{/if}							
 						{/if}
 						{if $IS_MODULE_DELETABLE}
-							{if $MODULE neq 'SalesOrder' }
+							{if $MODULE neq 'SalesOrder'}
 								{if $MODULE neq 'CallHistory' }
-								<a class="deleteRecordButton"><i title="{vtranslate('LBL_DELETE', $MODULE)}" class="icon-trash alignMiddle"></i></a>
+									{if $MODULE neq 'Accounts'}
+										<a class="deleteRecordButton"><i title="{vtranslate('LBL_DELETE', $MODULE)}" class="icon-trash alignMiddle"></i></a>
+									{/if}
 								{/if}
 							{/if}
 						{/if}

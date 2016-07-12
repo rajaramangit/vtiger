@@ -189,7 +189,7 @@ function closetemp()
 						<div class="pull-right detailViewButtoncontainer">
 							<div class="btn-toolbar">
 							
-							<!-----Added by Dipti------->
+							<!-- ---Added by Dipti----- -->
 							{if $MODULE_NAME eq 'Accounts'}
 							<span class="btn-group">
 								<button class="btn" id="call" onclick="call_org();" >
@@ -231,9 +231,11 @@ function closetemp()
 								<ul class="dropdown-menu pull-right">
 									{foreach item=DETAIL_VIEW_LINK from=$DETAILVIEW_LINKS['DETAILVIEW']}
 									{if {vtranslate($DETAIL_VIEW_LINK->getLabel(), $MODULE_NAME)} neq 'Delete Sales Order'}
-										<li id="{$MODULE_NAME}_detailView_moreAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($DETAIL_VIEW_LINK->getLabel())}">
+										{if {vtranslate($DETAIL_VIEW_LINK->getLabel(), $MODULE_NAME)} neq 'Delete Customer'}
+											<li id="{$MODULE_NAME}_detailView_moreAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($DETAIL_VIEW_LINK->getLabel())}">
 											<a href={$DETAIL_VIEW_LINK->getUrl()} >{vtranslate($DETAIL_VIEW_LINK->getLabel(), $MODULE_NAME)}</a>
-										</li>
+											</li>
+										{/if}
 									{/if}
 									{/foreach}
 								</ul>
