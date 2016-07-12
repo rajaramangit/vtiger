@@ -58,7 +58,7 @@ Vtiger_Detail_Js("Inventory_Detail_Js",{
 	 */
     getDetails : function(){
         //hide cuts spec
-        $("td[id^='SalesOrder_detailView_fieldLabel_cf_']").each(function(index) {
+        $("td[id^='SalesOrder_detailView_fieldLabel_cf_']").each(function(index) {            
             if(jQuery(this).text().toLowerCase() == 'cut spec'){
                 var fcls = jQuery(this).closest('td');          
                 fcls.hide();
@@ -66,9 +66,11 @@ Vtiger_Detail_Js("Inventory_Detail_Js",{
             }
             if(jQuery(this).text().toLowerCase() == 'area store'){
                 var fcls = jQuery(this).closest('td');
-                fcls.closest( "tr" ).prev().hide();                     
-                var hid_html = fcls.next().text().split('@@@')[1].replace('###', ' ');
-                fcls.next().text(hid_html);
+                fcls.closest( "tr" ).prev().hide();
+                if( fcls.next().text().trim() && fcls.next().text().indexOf('@@@') &&  fcls.next().text().indexOf('###') ){
+                    var hid_html = fcls.next().text().split('@@@')[1].replace('###', ' ');
+                    fcls.next().text(hid_html);                    
+                }
             }            
         });        
         return jQuery('.details');
