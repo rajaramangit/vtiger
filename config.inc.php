@@ -204,6 +204,6 @@ if(isset($default_timezone) && function_exists('date_default_timezone_set')) {
 
 $mage_api['usr_name'] 	= 'admin';
 $mage_api['usr_pwd'] 	= 'Tendercuts123!';
-$mage_api['url']		= 'http://localhost/tenderweb/index.php/api/?wsdl';
+$mage_api['url']		= 'https://staging.tendercuts.in/index.php/api/?wsdl';
 $mage_api['url_v2'] = 'https://staging.tendercuts.in/index.php/api/v2_soap/?wsdl';
 ?>

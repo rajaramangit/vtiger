@@ -565,16 +565,6 @@ jQuery.Class("Vtiger_Popup_Js",{
 		var cus_srch = jQuery('#custom_search_val').val();
 
 		if(cus_srch != ''){
-			var anyBoxesChecked = false;
-		    jQuery('input[type="checkbox"]').each(function() {
-		        if ($(this).is(":checked")) {
-		            anyBoxesChecked = true;
-		        }
-		    });
-		    if(anyBoxesChecked){
-		    	alert('Please submit changes before change category');
-				return false
-		    }		
 			completeParams['search_key'] =  'productcategory';
 			completeParams['search_value'] =  cus_srch;
 		}
@@ -604,6 +594,21 @@ jQuery.Class("Vtiger_Popup_Js",{
 				jQuery('#custom_search_val').val(jQuery(this).data("cus_srch"));
 			}
 			jQuery('#totalPageCount').text("");
+		
+			var cus_srch = jQuery('#custom_search_val').val();
+			if(cus_srch != ''){
+				var anyBoxesChecked = false;
+			    jQuery('input[type="checkbox"]').each(function() {
+			        if ($(this).is(":checked")) {
+			            anyBoxesChecked = true;
+			        }
+			    });
+			    if(anyBoxesChecked){
+			    	alert('Please submit changes before change category.');
+					return false
+			    }
+			}
+
 			thisInstance.searchHandler().then(function(data){
 				jQuery('#pageNumber').val(1);
 				jQuery('#pageToJump').val(1);

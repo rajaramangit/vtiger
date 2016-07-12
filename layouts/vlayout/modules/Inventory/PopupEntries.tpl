@@ -99,7 +99,7 @@
 				<div class="full-width" style="text-align: center;">
 					{if $temp_val == 1}					
 						<div id="imageContainer" class="img-cont">
-							<div id="sold_out_{$LISTVIEW_ENTRY->getId()}" class="sold-out" style="display: none;">Sold Out</div>
+							<div id="sold_out_{$LISTVIEW_ENTRY->getId()}" class="sold-out">Sold Out</div>
 							{foreach key=ITER item=IMAGE_INFO from=$IMAGE_DETAILS}							
 								{if !empty($IMAGE_INFO[$LISTVIEW_ENTRY->getId()][0].path) && !empty({$IMAGE_INFO[$LISTVIEW_ENTRY->getId()][0].orgname})}
 									<img src="{$IMAGE_INFO[$LISTVIEW_ENTRY->getId()][0].path}_{$IMAGE_INFO[$LISTVIEW_ENTRY->getId()][0].orgname}" >
@@ -113,7 +113,7 @@
 							<div style="float:left;width:90%;font-size: 14px;padding-bottom:10px;text-align: left;"><a><b>{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}</b></a></div>
 							<div style="float:left;widht:10%">							
 							{if $MULTI_SELECT}				
-								<input class="entryCheckBox" id="chk-bx-id-{$LISTVIEW_ENTRY->getId()}" type="checkbox" data-chk_pid="{$LISTVIEW_ENTRY->getId()}" />
+								<input class="entryCheckBox" id="chk-bx-id-{$LISTVIEW_ENTRY->getId()}" type="checkbox" data-chk_pid="{$LISTVIEW_ENTRY->getId()}" disabled="disabled" />
 							{/if}							
 							</div>
 						</div>
@@ -125,7 +125,7 @@
 						{else}
 							<div class="full-width">
 								<div class="lbl-con">Price:</div>
-								<div class="val_con pad-btm-15"><b><span id="prod_volume_{$LISTVIEW_ENTRY->getId()}"></span>{*$LISTVIEW_ENTRY->get('currencySymbol')*}{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}</b></div>
+								<div class="val_con pad-btm-15"><b><span id="prod_volume_{$LISTVIEW_ENTRY->getId()}"></span>{$LISTVIEW_ENTRY->get('currencySymbol')}&nbsp;{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}</b></div>
 							</div>							
 						{/if}
 					{else}
@@ -136,7 +136,7 @@
 						<div class="full-width">
 							<div class="lbl-con" >Available Quantity:</div>
 							<div class="val_con avail_qty">
-								<span id="avail_qty_{$LISTVIEW_ENTRY->getId()}"></span> Kg
+								<span id="avail_qty_{$LISTVIEW_ENTRY->getId()}">0</span> Kg
 							</div>
 						</div>
 						
@@ -147,12 +147,12 @@
 							<div class="val_con pad-btm-15" id="opt_val_con_{$LISTVIEW_ENTRY->getId()}"></div>
 						</div>						
 						
-						<div class="full-width" id="prod_incr_decr_cont_{$LISTVIEW_ENTRY->getId()}">
+						<div class="full-width" id="prod_incr_decr_cont_{$LISTVIEW_ENTRY->getId()}" style="display: none;">
 							<div class="lbl-con">Quantity:</div>
 							<div class="val_con">																	
 								<input type="hidden" id="min_qty_{$LISTVIEW_ENTRY->getId()}" value="0"></input>
 								<i title="Decriment" class="icon-trash prod-decri" style="display: inline-block; background-position: -433px -97px;" id="prod_decri_{$LISTVIEW_ENTRY->getId()}"></i>
-								<input type="text" class="span2 popup_qty" id="popup_qty_{$LISTVIEW_ENTRY->getId()}" value="0" style="width: 20%;" readonly="true"></input>
+								<input type="text" class="span2 popup_qty" disabled="disabled" id="popup_qty_{$LISTVIEW_ENTRY->getId()}" value="0" style="width: 20%;" readonly="true"></input>
 								<i title="Increment" class="icon-trash prod-incri" style="display: inline-block; background-position: -407px -97px;" id="prod_incri_{$LISTVIEW_ENTRY->getId()}"></i>
 							</div>
 						</div>
@@ -201,7 +201,7 @@
 {literal}
 <script type="text/javascript" src="js/product_json.js"></script>
 <script type="text/javascript">
-// var prod_spec = {"40855":{"label":{"3":"Small","4":"Big"}},"40657":{"label":{"5":"Half Slice","6":"Full Slice"}},"40666":{"label":{"7":"Small ","8":"Medium","9":"Large"}},"40732":{"label":{"10":"Small cut","11":"Medium cut","12":"Large cut"}},"40733":{"label":{"13":"Small cut","14":"Medium cut","15":"Large cut"}},"40734":{"label":{"16":"Small piece","17":"Medium piece"}},"40735":{"label":{"20":"Shoulder whole","18":"Shoulder small piece","19":"Shoulder large piece"}}} ;
+// var prod_spec = {"39798":{"label":{"3":"Small","4":"Big"}},"38639":{"label":{"5":"Half Slice","6":"Full Slice"}},"40666":{"label":{"7":"Small ","8":"Medium","9":"Large"}},"40732":{"label":{"10":"Small cut","11":"Medium cut","12":"Large cut"}},"40733":{"label":{"13":"Small cut","14":"Medium cut","15":"Large cut"}},"40734":{"label":{"16":"Small piece","17":"Medium piece"}},"40735":{"label":{"20":"Shoulder whole","18":"Shoulder small piece","19":"Shoulder large piece"}}} ;
 jQuery.each(prod_spec, function (key, data) {
 	options = '<select id="sel_opt_'+key+'" style="width:70%;">';
 	options += '<option value="">Choose Option</option>';
@@ -212,7 +212,7 @@ jQuery.each(prod_spec, function (key, data) {
 	});
 	options += '</select>';
 	jQuery('#opt_val_con_'+key).html(options);		
-	jQuery('#opt_con_'+key).show();
+	//jQuery('#opt_con_'+key).show();
 });
 
 // var product_min_qty ={"43":{"min_qty":"0.5","prodcut_spec":"1Kg"},"79":{"min_qty":"0.25","prodcut_spec":"1Kg"},"85":{"min_qty":"0.25","prodcut_spec":"1Kg"},"97":{"min_qty":"0.5","prodcut_spec":"1Kg"},"38639":{"min_qty":"0.5","prodcut_spec":"1Kg"},"38652":{"min_qty":"1","prodcut_spec":"1Unit"},"39798":{"min_qty":"0.5","prodcut_spec":"1kg"},"40857":{"min_qty":"1","prodcut_spec":"Pack of 2"},"39832":{"min_qty":"0.5","prodcut_spec":"500gm"},"40657":{"min_qty":"0.5","prodcut_spec":"1Kg"},"40666":{"min_qty":"1","prodcut_spec":"1Kg"},"40732":{"min_qty":"0.5","prodcut_spec":"1Kg"},"40733":{"min_qty":"0.5","prodcut_spec":"1Kg"},"40734":{"min_qty":"0.5","prodcut_spec":"1Kg"},"40735":{"min_qty":"0.5","prodcut_spec":"1Kg"}} ; 
@@ -220,20 +220,20 @@ jQuery.each(prod_spec, function (key, data) {
 jQuery.each(product_min_qty, function (key, data) {
 	jQuery('#min_qty_'+key).val(data.min_qty);
 	jQuery('#popup_qty_'+key).val(data.min_qty);
-	if(data.prodcut_spec){
-		var volume = data.prodcut_spec.toLowerCase();
-		var volume_txt  = '';
-		if(volume.indexOf('kg')){			
-			volume_txt = data.min_qty+'&nbsp;Kg&nbsp;&nbsp;&nbsp;';
-		}
-		else if(volume.indexOf('unit')){
-			volume_txt = data.prodcut_spec+'&nbsp;&nbsp;&nbsp;';
-		}
-		else if(volume.indexOf('pack')){
-			volume_txt = data.prodcut_spec+'&nbsp;&nbsp;&nbsp;';
-		}
-		jQuery('#prod_volume_'+key).html(volume_txt);
-	}	
+	// if(data.prodcut_spec){
+	// 	var volume = data.prodcut_spec.toLowerCase();
+	// 	var volume_txt  = '';
+	// 	if(volume.indexOf('kg')){			
+	// 		volume_txt = data.min_qty+'&nbsp;Kg&nbsp;&nbsp;&nbsp;';
+	// 	}
+	// 	else if(volume.indexOf('unit')){
+	// 		volume_txt = data.prodcut_spec+'&nbsp;&nbsp;&nbsp;';
+	// 	}
+	// 	else if(volume.indexOf('pack')){
+	// 		volume_txt = data.prodcut_spec+'&nbsp;&nbsp;&nbsp;';
+	// 	}
+	// 	jQuery('#prod_volume_'+key).html(volume_txt);
+	// }	
 });
 
 
@@ -290,12 +290,15 @@ jQuery.each(product_min_qty, function (key, data) {
 
 		$.map(products_qty_of_store,function(val,key){
 			if(prod_id_array.hasOwnProperty(val.product_id)){
-				if(parseInt(val.qty) <= 0){
-					$('#popup_prod_desc_'+prod_id_array[val.product_id]).attr('disabled','disabled');
-					$('#popup_qty_'+prod_id_array[val.product_id]).attr('disabled','disabled');
-					$('#chk-bx-id-'+prod_id_array[val.product_id]).attr('disabled','disabled');
-					$('#prod_incr_decr_cont_'+prod_id_array[val.product_id]).hide();
-					$('#sold_out_'+prod_id_array[val.product_id]).show();
+				var prod_min_qty = jQuery('#min_qty_'+prod_id_array[val.product_id]).val();
+				if( parseFloat(val.qty) < parseFloat(prod_min_qty) || parseFloat(val.qty) == 0 ){
+					
+				}else{
+					$('#popup_qty_'+prod_id_array[val.product_id]).removeAttr('disabled');
+					$('#chk-bx-id-'+prod_id_array[val.product_id]).removeAttr('disabled');
+					$('#opt_con_'+prod_id_array[val.product_id]).show();
+					$('#prod_incr_decr_cont_'+prod_id_array[val.product_id]).show();
+					$('#sold_out_'+prod_id_array[val.product_id]).hide();
 				}		
 				$('#avail_qty_hid_'+prod_id_array[val.product_id]).val(val.qty);
 				$('#avail_qty_'+prod_id_array[val.product_id]).html(val.qty);
