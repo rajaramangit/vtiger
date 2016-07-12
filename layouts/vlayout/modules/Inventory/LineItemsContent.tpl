@@ -85,7 +85,7 @@
 		<input id="{$qty}" name="{$qty}" type="text" class="qty smallInputBox" data-validation-engine="validate[required,funcCall[Vtiger_GreaterThanZero_Validator_Js.invokeValidation]]" value="{if !empty($data.$qty)}{$data.$qty}{else}1{/if}" readonly="" />
 		{if $MODULE neq 'PurchaseOrder'}
 		<br>
-		<span class="stockAlert redColor {if $data.$qty <= $data.$qtyInStock}hide{/if}" >
+		<span class="stockAlert redColor {if $data.$qty <= $data.$qtyInStock}hide{/if}" style="display: none;">
 			{vtranslate('LBL_STOCK_NOT_ENOUGH',$MODULE)}
 			<br>
 			{vtranslate('LBL_MAX_QTY_SELECT',$MODULE)}&nbsp;<span class="maxQuantity">{$data.$qtyInStock}</span>
