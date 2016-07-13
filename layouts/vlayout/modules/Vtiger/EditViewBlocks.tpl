@@ -36,6 +36,32 @@
 			<input type="hidden" name="sourceRecord" value="{$SOURCE_RECORD}" />
 			<input type="hidden" name="relationOperation" value="{$IS_RELATION_OPERATION}" />
 		{/if}
+		
+		{if $MODULE eq 'Accounts'}
+			{literal}		
+				<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBtNjCSXMDgsEcrxkEOG1KjWqWN_jT59wI&libraries=places"></script>
+				<script type="text/javascript">       
+			       google.maps.event.addDomListener(window, 'load', function () {
+						var options = {
+						     types: ['geocode'], //this should work !,
+						     componentRestrictions: {country: "in"}
+						};						
+						var places = new google.maps.places.Autocomplete(document.getElementById('gmap_autocomplete'),options);
+						// google.maps.event.addListener(places, 'place_changed', function () {
+						// 	var place = places.getPlace();
+						// 	var address = place.formatted_address;
+						// 	var latitude = place.geometry.location.lat();
+						// 	var longitude = place.geometry.location.lng();
+						// 	var mesg = "Address: " + address;
+						// 	mesg += "\nLatitude: " + latitude;
+						// 	mesg += "\nLongitude: " + longitude;
+							
+						// });
+			       });
+				</script>
+			{/literal}
+		{/if}
+
 		<div class="contentHeader row-fluid">
 		{assign var=SINGLE_MODULE_NAME value='SINGLE_'|cat:$MODULE}
 		{if $RECORD_ID neq ''}

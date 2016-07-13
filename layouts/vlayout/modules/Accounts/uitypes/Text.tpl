@@ -23,8 +23,12 @@
     <textarea class="input-large {if $FIELD_MODEL->isNameField()}nameField{/if}" name="{$FIELD_NAME}" {if $FIELD_NAME eq "notecontent"}id="{$FIELD_NAME}"{/if} data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true}required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator={Zend_Json::encode($SPECIAL_VALIDATOR)}{/if}>
     {$FIELD_MODEL->get('fieldvalue')}</textarea>
 {else}
-    <textarea class="input-large {if $FIELD_MODEL->isNameField()}nameField{/if}" name="{$FIELD_NAME}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true}required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator={Zend_Json::encode($SPECIAL_VALIDATOR)}{/if} onkeyup="fillshipping({$FIELD_NAME})">
+	{if $FIELD_NAME eq "bill_street" or $FIELD_NAME eq "ship_street"}
+		<input  {if $FIELD_NAME eq "bill_street"} id="gmap_autocomplete" {/if} class="input-large {if $FIELD_MODEL->isNameField()}nameField{/if}" name="{$FIELD_NAME}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true}required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator={Zend_Json::encode($SPECIAL_VALIDATOR)}{/if} onkeyup="fillshipping({$FIELD_NAME})" value="{$FIELD_MODEL->get('fieldvalue')}"></input>
+	{else}
+		<textarea class="input-large {if $FIELD_MODEL->isNameField()}nameField{/if}" name="{$FIELD_NAME}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true}required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator={Zend_Json::encode($SPECIAL_VALIDATOR)}{/if} onkeyup="fillshipping({$FIELD_NAME})">
     {$FIELD_MODEL->get('fieldvalue')}</textarea>
+	{/if}    
 		{if $FIELD_NAME eq "bill_street"}
 			<div>
 				<a class="cursorPointer" name="copyAddress" data-target="shipping">{vtranslate('LBL_COPY_SHIPPING_ADDRESS', $MODULE)}</a>
