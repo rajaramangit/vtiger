@@ -646,6 +646,10 @@ jQuery.Class("Vtiger_Edit_Js",{
 				$('#'+area_con_id).attr('disabled','disabled');
 				$("#"+area_con_id).trigger("liszt:updated");
 			}
+			if(so_len > 1 && so_responseData.label && so_responseData.label.toLowerCase() == 'carrier'){
+				$(this).parents('td').prev('td').hide();
+				$(this).parents('td').hide();				
+			}			
 		});
 		
 		if(store_con_id && area_con_id){
