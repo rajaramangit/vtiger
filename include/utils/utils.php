@@ -1857,7 +1857,7 @@ function getDeliveryAreaStore(){
 			$result   = $client->call($sessionId,'areamaps.list',$filter);	
 			$area_stores_ary[0] = array();
 			$area_stores = array();
-			if( is_array($result) && $delivery_area_cnt = count($result[0])){					
+			if( is_array($result) && $delivery_area_cnt = count($result)){					
 				for($i=0;$i<$delivery_area_cnt;$i++){
 					if( !empty($result[$i]['store_id']) ){
 						$area_stores[$result[$i]['store_id']][$result[$i]['store_name']][$result[$i]['entity_id']] = $result[$i]['areadetails'];

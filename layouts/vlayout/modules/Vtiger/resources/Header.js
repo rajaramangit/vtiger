@@ -359,7 +359,10 @@ jQuery.Class("Vtiger_Header_Js", {
                 thisInstance.mobileSearch(currentTarget);
             }
         });
-
+        jQuery('#mobileSearchIcon').on('click',function(e) {
+            var currentTarget = jQuery(document.getElementById("mobileSearchValue"));
+            thisInstance.mobileSearch(currentTarget);
+        });
     },
     mobileSearch:function(currentTarget){
     var val = currentTarget.val();
