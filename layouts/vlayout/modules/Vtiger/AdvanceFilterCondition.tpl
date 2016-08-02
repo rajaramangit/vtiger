@@ -17,6 +17,11 @@
 			{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
 				<optgroup label='{vtranslate($BLOCK_LABEL, $SOURCE_MODULE)}'>
 				{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
+					
+					{if $FIELD_MODEL->get('label') eq 'SalesOrder No'}
+						  {continue} 
+					{/if}
+
 					{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 					{assign var=MODULE_MODEL value=$FIELD_MODEL->getModule()}
 					{if !empty($COLUMNNAME_API)}
@@ -55,7 +60,17 @@
 					{if $SOURCE_MODULE neq $MODULE_MODEL->get('name')}
 						({vtranslate($MODULE_MODEL->get('name'), $MODULE_MODEL->get('name'))})  {vtranslate($FIELD_MODEL->get('label'), $MODULE_MODEL->get('name'))}
 					{else}
-						{vtranslate($FIELD_MODEL->get('label'), $SOURCE_MODULE)}
+						{if $SOURCE_MODULE eq 'SalesOrder'}
+							{if vtranslate($FIELD_MODEL->get('label'), $SOURCE_MODULE) eq 'Organization Name'}	
+								Customer Name
+							{elseif vtranslate($FIELD_MODEL->get('label'), $SOURCE_MODULE) eq 'Subject'}	
+								Order Number
+							{else}								
+								{vtranslate($FIELD_MODEL->get('label'), $SOURCE_MODULE)}
+							{/if}							
+						{else}
+							{vtranslate($FIELD_MODEL->get('label'), $SOURCE_MODULE)}
+						{/if}
 					{/if}
 				</option>
 				{/foreach}

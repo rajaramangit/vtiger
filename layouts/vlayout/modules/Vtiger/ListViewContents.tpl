@@ -65,8 +65,15 @@
 				</th>
 				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 				<th nowrap {if $LISTVIEW_HEADER@last} colspan="2" {/if} class="{$WIDTHTYPE}">
-					<a href="javascript:void(0);" class="listViewHeaderValues" data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('column')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('column')}">{vtranslate($LISTVIEW_HEADER->get('label'), $MODULE)}
-						&nbsp;&nbsp;{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('column')}<img class="{$SORT_IMAGE} icon-white">{/if}</a>
+					<a href="javascript:void(0);" class="listViewHeaderValues" data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('column')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('column')}">					
+					{if ( $MODULE eq 'SalesOrder' || $MODULE eq 'CallHistory' || $MODULE eq 'HelpDesk' || $MODULE eq 'Contacts' || $MODULE eq 'Quotes' ) && vtranslate($LISTVIEW_HEADER->get('label'), $MODULE) eq 'Organization Name'}
+						Customer Name
+					{elseif $MODULE eq 'SalesOrder' && vtranslate($LISTVIEW_HEADER->get('label'), $MODULE) eq 'Subject'}
+						Order Number
+					{else}
+						{vtranslate($LISTVIEW_HEADER->get('label'), $MODULE)}
+					{/if}					
+					&nbsp;&nbsp;{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('column')}<img class="{$SORT_IMAGE} icon-white">{/if}</a>
 				</th>
 				{/foreach}
 			</tr>

@@ -66,6 +66,7 @@
                         <span class="cus_srch btn" data-cus_srch="chicken">Chicken</span>&nbsp;&nbsp;
                         <span class="cus_srch btn" data-cus_srch="mutton">Mutton</span>&nbsp;&nbsp;
                         <span class="cus_srch btn" data-cus_srch="seafood">SeaFood</span>&nbsp;&nbsp;
+                        <span class="cus_srch btn" data-cus_srch="marinates">Marinates</span>&nbsp;&nbsp;
                         <span class="cus_srch active btn " data-cus_srch="">All</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         {/if}                    
                     {if !empty($LISTVIEW_ENTRIES)}<button class="select btn btn-success"><strong>{vtranslate('LBL_SELECT', $MODULE)} Product</strong></button>{/if}

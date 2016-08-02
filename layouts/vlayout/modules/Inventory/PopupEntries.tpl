@@ -199,7 +199,7 @@
 {/if}
 {/strip}
 {literal}
-<script type="text/javascript" src="js/product_json.js"></script>
+<script>document.write("<script type='text/javascript' src='js/product_json.js?v=" + Date.now() + "'><\/script>");</script>
 <script type="text/javascript">
 // var prod_spec = {"39798":{"label":{"3":"Small","4":"Big"}},"38639":{"label":{"5":"Half Slice","6":"Full Slice"}},"40666":{"label":{"7":"Small ","8":"Medium","9":"Large"}},"40732":{"label":{"10":"Small cut","11":"Medium cut","12":"Large cut"}},"40733":{"label":{"13":"Small cut","14":"Medium cut","15":"Large cut"}},"40734":{"label":{"16":"Small piece","17":"Medium piece"}},"40735":{"label":{"20":"Shoulder whole","18":"Shoulder small piece","19":"Shoulder large piece"}}} ;
 jQuery.each(prod_spec, function (key, data) {
