@@ -870,7 +870,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
 		this.calculatePreTaxTotal();
     },
 	
-	calculateGroupTax : function() {
+	calculateGroupTax : function() {		
 		var netTotal = this.getNetTotal();
 		var finalDiscountValue = this.getFinalDiscountTotal();
 		var amount = netTotal - finalDiscountValue;
@@ -878,12 +878,22 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
 		var groupTaxContainer = jQuery('#group_tax_div');
 		var groupTaxTotal = 0;
 		groupTaxContainer.find('.groupTaxPercentage').each(function(index,domElement){
+			$("input[id^='tax1_percentage']").each(function(index) {
 			var groupTaxPercentageElement = jQuery(domElement);
 			var groupTaxRow = groupTaxPercentageElement.closest('tr');
 			var groupTaxValue = (amount * groupTaxPercentageElement.val())/100;
 			groupTaxValue = parseFloat(groupTaxValue).toFixed(2);
 			groupTaxRow.find('.groupTaxTotal').val(groupTaxValue);
 			groupTaxTotal += parseFloat(groupTaxValue);
+			});
+		});
+		var marinade_price = 0;
+		$("input[id^='tax1_percentage']").each(function(index) {
+			var indvidual_tax = $(this).val();
+			var tax_row_id = $(this).attr('id').split('tax1_percentage')[1];			
+			marinade_price = (marinade_price) + Number($('#netPrice'+tax_row_id).text());
+			var new_amount = parseFloat(marinade_price).toFixed(2);
+			groupTaxTotal = (new_amount * indvidual_tax)/100;
 		});
 		this.setGroupTaxTotal(groupTaxTotal);
 	},

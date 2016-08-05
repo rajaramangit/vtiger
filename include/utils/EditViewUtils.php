@@ -352,9 +352,9 @@ function getAssociatedProducts($module,$focus,$seid='')
 	$subTotal = number_format($subTotal, $no_of_decimal_places,'.','');
 
 	//07-07-2016 - Prasanna.R - Vtiger sync total issue
-    $shippingCharge = ($focus->column_fields['hdnS_H_Amount'] != '') ? $focus->column_fields['hdnS_H_Amount']:'0.00';
-    $shippingTotal = number_format($shippingCharge,$no_of_decimal_places,'.','');
-    $subTotal = $subTotal - $shippingTotal;
+    // $shippingCharge = ($focus->column_fields['hdnS_H_Amount'] != '') ? $focus->column_fields['hdnS_H_Amount']:'0.00';
+    // $shippingTotal = number_format($shippingCharge,$no_of_decimal_places,'.','');
+    //$subTotal = $subTotal - $shippingTotal;
 
 	$product_Detail[1]['final_details']['hdnSubTotal'] = $subTotal;
 	$discountPercent = ($focus->column_fields['hdnDiscountPercent'] != '')?$focus->column_fields['hdnDiscountPercent']:'0.00';
@@ -420,6 +420,20 @@ function getAssociatedProducts($module,$focus,$seid='')
 		$product_Detail[1]['final_details']['taxes'][$tax_count]['percentage'] = $tax_percent;
 		$product_Detail[1]['final_details']['taxes'][$tax_count]['amount'] = $taxamount;
 	}
+
+	//rajaraman - tax for marinates
+	$pro_cnt = count($product_Detail);
+	$new_tax_amnt = 0;
+	for($i=1; $i<=$pro_cnt; $i++){
+		if(isset($product_Detail[$i]['taxes'])){
+			$tax_per = $product_Detail[$i]['taxes'][0]['percentage'];
+			$new_tax_amnt += ($product_Detail[$i]['netPrice'.$i] * $tax_per)/(100);
+		}
+	}	
+	$taxtotal = $new_tax_amnt;
+	
+	//rajaraman
+
 	$product_Detail[1]['final_details']['tax_totalamount'] = $taxtotal;
 
 	//To set the Shipping & Handling charge
