@@ -428,7 +428,7 @@ function getAssociatedProducts($module,$focus,$seid='')
 	for($i=1; $i<=$pro_cnt; $i++){
 		if(isset($product_Detail[$i]['taxes'])){
 			//$tax_per = $product_Detail[$i]['taxes'][0]['percentage'];
-			$tax_per = '14.5';
+			$tax_per = '5';
 			$new_tax_amnt += ($product_Detail[$i]['netPrice'.$i] * $tax_per)/(100);
 		}
 		$newSubTotal += $product_Detail[$i]['netPrice'.$i];

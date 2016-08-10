@@ -924,7 +924,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
 		var newGroupTaxTotal = 0;
 		$("input[id^='tax1_percentage']").each(function(index) {
 			//var indvidual_tax = $(this).val();
-			var indvidual_tax = 14.5;
+			var indvidual_tax = 5;
 			
 			$(this).val(indvidual_tax);
 			var tax_row_id = $(this).attr('id').split('tax1_percentage')[1];
