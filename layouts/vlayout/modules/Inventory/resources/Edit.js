@@ -812,8 +812,9 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
 		var totalAfterDiscount = this.getTotalAfterDiscount(lineItemRow);
 		var netPrice = parseFloat(totalAfterDiscount);
 		if(this.isIndividualTaxMode()) {
-			var productTaxTotal = this.getLineItemTaxTotal(lineItemRow);
-			netPrice +=  parseFloat(productTaxTotal)
+			//commented by rajaraman
+			// var productTaxTotal = this.getLineItemTaxTotal(lineItemRow);
+			// netPrice +=  parseFloat(productTaxTotal)
 		}
 		netPrice = netPrice.toFixed(2);
 		this.setLineItemNetPrice(lineItemRow,netPrice);
@@ -887,14 +888,15 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
 			groupTaxTotal += parseFloat(groupTaxValue);
 			});
 		});
-		var marinade_price = 0;
-		$("input[id^='tax1_percentage']").each(function(index) {
-			var indvidual_tax = $(this).val();
-			var tax_row_id = $(this).attr('id').split('tax1_percentage')[1];			
-			marinade_price = (marinade_price) + Number($('#netPrice'+tax_row_id).text());
-			var new_amount = parseFloat(marinade_price).toFixed(2);
-			groupTaxTotal = (new_amount * indvidual_tax)/100;
-		});
+		// var marinade_price = 0;
+		// $("input[id^='tax1_percentage']").each(function(index) {
+		// 	//var indvidual_tax = $(this).val();
+		// 	var indvidual_tax = 14.250;
+		// 	var tax_row_id = $(this).attr('id').split('tax1_percentage')[1];			
+		// 	marinade_price = (marinade_price) + Number($('#netPrice'+tax_row_id).text());
+		// 	var new_amount = parseFloat(marinade_price).toFixed(2);
+		// 	groupTaxTotal = (new_amount * indvidual_tax)/100;
+		// });
 		this.setGroupTaxTotal(groupTaxTotal);
 	},
 	
@@ -917,6 +919,30 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
 	},
 
 	calculateGrandTotal : function(){
+		
+		var marinade_price = 0;
+		var newGroupTaxTotal = 0;
+		$("input[id^='tax1_percentage']").each(function(index) {
+			//var indvidual_tax = $(this).val();
+			var indvidual_tax = 14.5;
+			
+			$(this).val(indvidual_tax);
+			var tax_row_id = $(this).attr('id').split('tax1_percentage')[1];
+			var newInvidualTaxVal = (Number($('#netPrice'+tax_row_id).text()) * indvidual_tax)/100;
+			newInvidualTaxVal = parseFloat(newInvidualTaxVal).toFixed(2);
+			$("input[name=popup_tax_row"+tax_row_id+"]").val(newInvidualTaxVal);
+
+			marinade_price = (marinade_price) + Number($('#netPrice'+tax_row_id).text());
+			var new_amount = parseFloat(marinade_price).toFixed(2);
+			newGroupTaxTotal = (new_amount * indvidual_tax)/100;
+			jQuery('#tax_final').text(newGroupTaxTotal);
+
+			// var newNetTotal = parseFloat(jQuery('#netTotal').text()) + parseFloat(groupTaxTotal);
+			// jQuery('#netTotal').text(newNetTotal);
+			// console.log(newNetTotal,groupTaxTotal);
+			
+		});
+
 		var netTotal = this.getNetTotal();
 		var discountTotal = this.getFinalDiscountTotal();
 		var shippingHandlingCharge = this.getShippingAndHandling();
@@ -935,6 +961,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
 		}
 		
 		grandTotal = grandTotal.toFixed(2);
+		grandTotal = parseFloat(grandTotal) + parseFloat(newGroupTaxTotal);		
 		this.setGrandTotal(grandTotal);
 	},
 
@@ -2070,6 +2097,14 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
 					fcls.prev().hide();											
 				}
 			}			
-		});		
+		});
+		
+		//invidual tax container
+		$('option:selected', '#taxtype').removeAttr('selected');
+		$('#taxtype option[value=individual]').attr('selected','selected');
+		$("#taxtype option[value='group']").remove();
+		$("#taxtype").trigger("liszt:updated");		
+		$('.individualTaxContainer').hide();
+		//							
     }
 });

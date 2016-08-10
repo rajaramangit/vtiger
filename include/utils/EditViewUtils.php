@@ -304,12 +304,12 @@ function getAssociatedProducts($module,$focus,$seid='')
 		//if condition is added to call this function when we create PO/SO/Quotes/Invoice from Product module
 		if($module == 'PurchaseOrder' || $module == 'SalesOrder' || $module == 'Quotes' || $module == 'Invoice')
 		{
-			$taxtype = getInventoryTaxType($module,$focus->id);
-			if($taxtype == 'individual')
-			{
-				//Add the tax with product total and assign to netprice
-				$netPrice = $netPrice+$taxTotal;
-			}
+			// $taxtype = getInventoryTaxType($module,$focus->id);
+			// if($taxtype == 'individual')
+			// {
+			// 	//Add the tax with product total and assign to netprice
+			// 	$netPrice = $netPrice+$taxTotal;
+			// }
 		}
 		$product_Detail[$i]['netPrice'.$i] = $netPrice;
 
@@ -397,7 +397,7 @@ function getAssociatedProducts($module,$focus,$seid='')
 	$taxtotal = '0.00';
 	//First we should get all available taxes and then retrieve the corresponding tax values
 	$tax_details = getAllTaxes('available','','edit',$focus->id);
-
+	
 	for($tax_count=0;$tax_count<count($tax_details);$tax_count++)
 	{
 		$tax_name = $tax_details[$tax_count]['taxname'];
@@ -424,14 +424,22 @@ function getAssociatedProducts($module,$focus,$seid='')
 	//rajaraman - tax for marinates
 	$pro_cnt = count($product_Detail);
 	$new_tax_amnt = 0;
+	$newSubTotal = '0.00';
 	for($i=1; $i<=$pro_cnt; $i++){
 		if(isset($product_Detail[$i]['taxes'])){
-			$tax_per = $product_Detail[$i]['taxes'][0]['percentage'];
+			//$tax_per = $product_Detail[$i]['taxes'][0]['percentage'];
+			$tax_per = '14.5';
 			$new_tax_amnt += ($product_Detail[$i]['netPrice'.$i] * $tax_per)/(100);
 		}
-	}	
+		$newSubTotal += $product_Detail[$i]['netPrice'.$i];
+	}
+	if($newSubTotal){
+		$product_Detail[1]['final_details']['hdnSubTotal'] = $newSubTotal;
+	}
+	if($new_tax_amnt){
+		$product_Detail[1]['final_details']['taxtype'] = 'group';//foruce to set group for TAX show	
+	}
 	$taxtotal = $new_tax_amnt;
-	
 	//rajaraman
 
 	$product_Detail[1]['final_details']['tax_totalamount'] = $taxtotal;
