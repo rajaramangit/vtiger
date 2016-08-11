@@ -59,18 +59,14 @@
 					data-fieldinfo='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($FIELD_INFO))}' >
 					{if $SOURCE_MODULE neq $MODULE_MODEL->get('name')}
 						({vtranslate($MODULE_MODEL->get('name'), $MODULE_MODEL->get('name'))})  {vtranslate($FIELD_MODEL->get('label'), $MODULE_MODEL->get('name'))}
-					{else}
-						{if $SOURCE_MODULE eq 'SalesOrder'}
+					{else}						
 							{if vtranslate($FIELD_MODEL->get('label'), $SOURCE_MODULE) eq 'Organization Name'}	
 								Customer Name
 							{elseif vtranslate($FIELD_MODEL->get('label'), $SOURCE_MODULE) eq 'Subject'}	
 								Order Number
 							{else}								
 								{vtranslate($FIELD_MODEL->get('label'), $SOURCE_MODULE)}
-							{/if}							
-						{else}
-							{vtranslate($FIELD_MODEL->get('label'), $SOURCE_MODULE)}
-						{/if}
+							{/if}
 					{/if}
 				</option>
 				{/foreach}
