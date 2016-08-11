@@ -90,7 +90,7 @@ function getAssociatedProducts($module,$focus,$seid='')
 	$log->debug("Entering getAssociatedProducts(".$module.",".get_class($focus).",".$seid."='') method ...");
 	global $adb;
 	$output = '';
-	global $theme,$current_user;
+	global $theme,$current_user,$marinate_vat_percentage;
 
 	$no_of_decimal_places = getCurrencyDecimalPlaces();
 	$theme_path="themes/".$theme."/";
@@ -428,7 +428,7 @@ function getAssociatedProducts($module,$focus,$seid='')
 	for($i=1; $i<=$pro_cnt; $i++){
 		if(isset($product_Detail[$i]['taxes'])){
 			//$tax_per = $product_Detail[$i]['taxes'][0]['percentage'];
-			$tax_per = '5';
+			$tax_per = $marinate_vat_percentage;
 			$new_tax_amnt += ($product_Detail[$i]['netPrice'.$i] * $tax_per)/(100);
 		}
 		$newSubTotal += $product_Detail[$i]['netPrice'.$i];

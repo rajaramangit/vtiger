@@ -922,10 +922,14 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
 		
 		var marinade_price = 0;
 		var newGroupTaxTotal = 0;
+		var indvidual_tax = 5;
+		if(typeof marinate_vat_percentage  != 'undefined') {//getting from config
+			indvidual_tax = marinate_vat_percentage;
+		}
+
 		$("input[id^='tax1_percentage']").each(function(index) {
 			//var indvidual_tax = $(this).val();
-			var indvidual_tax = 5;
-			
+						
 			$(this).val(indvidual_tax);
 			var tax_row_id = $(this).attr('id').split('tax1_percentage')[1];
 			var newInvidualTaxVal = (Number($('#netPrice'+tax_row_id).text()) * indvidual_tax)/100;

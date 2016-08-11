@@ -206,4 +206,5 @@ $mage_api['usr_name'] 	= 'admin';
 $mage_api['usr_pwd'] 	= 'Tendercuts123!';
 $mage_api['url']		= 'https://staging.tendercuts.in/index.php/api/?wsdl';
 $mage_api['url_v2'] = 'https://staging.tendercuts.in/index.php/api/v2_soap/?wsdl';
+$marinate_vat_percentage = 5;
 ?>

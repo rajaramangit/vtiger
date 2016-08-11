@@ -16,8 +16,10 @@ class SalesOrder_EditRecordStructure_Model extends Inventory_EditRecordStructure
 	
 }
 $delivery_area_store_ary = getDeliveryAreaStore();
+global $marinate_vat_percentage;
 if( isset($delivery_area_store_ary) && !empty($delivery_area_store_ary) ){
 	echo '<script type="text/javascript">
 			var area_store 	= '. $delivery_area_store_ary. ';
+			var marinate_vat_percentage = '.$marinate_vat_percentage.';
 		</script>';
 }
